@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>花境系統｜NFC 彩蛋</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+      background:
+        radial-gradient(circle at top, rgba(164, 120, 255, 0.35), transparent 35%),
+        linear-gradient(160deg, #0f1021 0%, #1f1147 45%, #34145c 100%);
+      color: #f6f3ff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 460px;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 24px;
+      padding: 28px 22px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+      text-align: center;
+    }
+
+    .small-tag {
+      display: inline-block;
+      font-size: 12px;
+      letter-spacing: 1px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.12);
+      margin-bottom: 14px;
+    }
+
+    h1 {
+      font-size: 28px;
+      margin: 0 0 10px;
+    }
+
+    .subtitle {
+      font-size: 15px;
+      line-height: 1.8;
+      color: #e6ddff;
+      margin: 0 0 22px;
+    }
+
+    .flower-area {
+      width: 180px;
+      height: 180px;
+      margin: 0 auto 20px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle, rgba(255,255,255,0.16), rgba(255,255,255,0.04));
+      border: 1px solid rgba(255,255,255,0.14);
+      box-shadow: inset 0 0 30px rgba(255,255,255,0.05);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .flower {
+      font-size: 68px;
+      transform: scale(0.8);
+      opacity: 0.75;
+      transition: transform 0.6s ease, opacity 0.6s ease;
+    }
+
+    .flower.bloom {
+      transform: scale(1.18);
+      opacity: 1;
+      animation: pulse 1.2s ease;
+    }
+
+    @keyframes pulse {
+      0%   { transform: scale(0.5); opacity: 0.2; }
+      50%  { transform: scale(1.22); opacity: 1; }
+      100% { transform: scale(1.18); opacity: 1; }
+    }
+
+    .input-group {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    input {
+      flex: 1;
+      border: none;
+      outline: none;
+      border-radius: 14px;
+      padding: 14px 16px;
+      font-size: 15px;
+      background: rgba(255,255,255,0.12);
+      color: #fff;
+    }
+
+    input::placeholder {
+      color: rgba(255,255,255,0.65);
+    }
+
+    button {
+      border: none;
+      outline: none;
+      border-radius: 14px;
+      padding: 14px 18px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      color: #2b0d52;
+      background: linear-gradient(135deg, #f6d0ff 0%, #c5b3ff 100%);
+      transition: transform 0.15s ease, opacity 0.15s ease;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+      opacity: 0.95;
+    }
+
+    .hint {
+      font-size: 13px;
+      color: #d7cbff;
+      margin-bottom: 16px;
+      line-height: 1.7;
+    }
+
+    .result {
+      margin-top: 18px;
+      padding: 18px 16px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      text-align: left;
+      display: none;
+    }
+
+    .result.show {
+      display: block;
+      animation: fadeIn 0.45s ease;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .result-title {
+      font-size: 18px;
+      margin: 0 0 10px;
+      color: #fff;
+    }
+
+    .result-text {
+      margin: 0;
+      line-height: 1.9;
+      color: #f3edff;
+      font-size: 15px;
+    }
+
+    .status {
+      min-height: 24px;
+      margin-top: 6px;
+      font-size: 14px;
+      color: #ffd9f0;
+    }
+
+    .footer-note {
+      margin-top: 18px;
+      font-size: 12px;
+      color: rgba(255,255,255,0.66);
+      line-height: 1.7;
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .secondary-btn {
+      flex: 1;
+      background: rgba(255,255,255,0.1);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.14);
+    }
+
+    .primary-btn {
+      flex: 1;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="small-tag">NFC 花境互動系統</div>
+    <h1>智能手環・花境啟動</h1>
+    <p class="subtitle">
+      歡迎進入花境系統。<br>
+      請輸入通關密碼，喚醒屬於你的植物彩蛋。
+    </p>
+
+    <div class="flower-area">
+      <div class="flower" id="flowerIcon">🌱</div>
+    </div>
+
+    <div class="hint">
+      提示：密碼可能和演唱會、光、花、GLORIA、棋士有關。
+    </div>
+
+    <div class="input-group">
+      <input
+        type="text"
+        id="passwordInput"
+        placeholder="請輸入啟動密碼"
+        autocomplete="off"
+      />
+      <button onclick="unlockFlower()">解鎖</button>
+    </div>
+
+    <div class="status" id="statusText"></div>
+
+    <div class="result" id="resultBox">
+      <h2 class="result-title" id="resultTitle">已解鎖</h2>
+      <p class="result-text" id="resultText"></p>
+
+      <div class="actions">
+        <button class="secondary-btn" onclick="resetSystem()">重新輸入</button>
+        <button class="primary-btn" onclick="randomHint()">再拿一個提示</button>
+      </div>
+    </div>
+
+    <div class="footer-note">
+      每一道信念，都會開出一朵花。<br>
+      願你在光裡相遇，也把光帶給下一位棋士。
+    </div>
+  </div>
+
+  <script>
+    const passwordData = {
+      "GLORIA": {
+        emoji: "💜",
+        title: "紫光花已綻放",
+        text: "驗證成功。你喚醒了『紫光花』。\n它只為仍然願意相信光的人盛開。\n今日彩蛋訊息：見過光，就應該把光反射出去。"
+      },
+      "LIGHT": {
+        emoji: "✨",
+        title: "星燈花已綻放",
+        text: "驗證成功。你喚醒了『星燈花』。\n它會在黑暗裡發亮，也提醒你曾經為誰心動。\n今日彩蛋訊息：有些聲音，會陪你走很遠很遠。"
+      },
+      "QUEEN": {
+        emoji: "👑",
+        title: "王冠花已綻放",
+        text: "驗證成功。你喚醒了『王冠花』。\n它象徵勇氣、自信與舞台上的耀眼時刻。\n今日彩蛋訊息：真正的閃耀，不只是被看見，而是始終沒有放棄自己。"
+      },
+      "棋士": {
+        emoji: "🌸",
+        title: "隱藏花種已解鎖",
+        text: "恭喜你解鎖隱藏版『棋士花』。\n這朵花只送給懂得交換、懂得珍惜、也願意把喜歡延續下去的人。\n今日彩蛋訊息：我們也許不認識，但我們喜歡同一個人。"
+      },
+      "GEM": {
+        emoji: "💎",
+        title: "鑽光花已綻放",
+        text: "驗證成功。你喚醒了『鑽光花』。\n它在花境資料庫中，被標記為最接近夢想形狀的花。\n今日彩蛋訊息：喜歡一個人發光，也是一種很浪漫的事。"
+      }
+    };
+
+    const hintList = [
+      "提示 1：有一組密碼和專輯/巡演氛圍有關。",
+      "提示 2：有一組密碼和『光』有關。",
+      "提示 3：有一組密碼是粉絲身份感。",
+      "提示 4：有一組密碼很像舞台上閃耀的象徵。",
+      "提示 5：有一組密碼很短，和名字有關。"
+    ];
+
+    function unlockFlower() {
+      const input = document.getElementById("passwordInput").value.trim();
+      const normalized = input.toUpperCase();
+
+      const resultBox = document.getElementById("resultBox");
+      const resultTitle = document.getElementById("resultTitle");
+      const resultText = document.getElementById("resultText");
+      const statusText = document.getElementById("statusText");
+      const flowerIcon = document.getElementById("flowerIcon");
+
+      let data = null;
+
+      if (passwordData[input]) {
+        data = passwordData[input];
+      } else if (passwordData[normalized]) {
+        data = passwordData[normalized];
+      }
+
+      flowerIcon.classList.remove("bloom");
+
+      if (data) {
+        resultTitle.textContent = data.title;
+        resultText.innerText = data.text;
+        statusText.textContent = "系統驗證完成，植物艙啟動中……";
+        flowerIcon.textContent = data.emoji;
+        resultBox.classList.add("show");
+
+        setTimeout(() => {
+          flowerIcon.classList.add("bloom");
+        }, 80);
+      } else {
+        resultBox.classList.remove("show");
+        statusText.textContent = "密碼錯誤，尚未偵測到有效訊號。";
+        flowerIcon.textContent = "🌱";
+      }
+    }
+
+    function resetSystem() {
+      document.getElementById("passwordInput").value = "";
+      document.getElementById("statusText").textContent = "";
+      document.getElementById("resultBox").classList.remove("show");
+
+      const flowerIcon = document.getElementById("flowerIcon");
+      flowerIcon.textContent = "🌱";
+      flowerIcon.classList.remove("bloom");
+    }
+
+    function randomHint() {
+      const randomIndex = Math.floor(Math.random() * hintList.length);
+      document.getElementById("statusText").textContent = hintList[randomIndex];
+    }
+
+    document.getElementById("passwordInput").addEventListener("keydown", function(event) {
+      if (event.key === "Enter") {
+        unlockFlower();
+      }
+    });
+  </script>
+</body>
+</html>
