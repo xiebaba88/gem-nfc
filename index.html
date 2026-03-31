@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>花境系統｜NFC 彩蛋</title>
+  <title>啓示錄系統</title>
   <style>
     * {
       box-sizing: border-box;
@@ -210,11 +210,11 @@
 </head>
 <body>
   <div class="card">
-    <div class="small-tag">NFC 花境互動系統</div>
-    <h1>智能手環・花境啟動</h1>
+    <div class="small-tag">啓示錄互動系統</div>
+    <h1>《啓示錄》</h1>
     <p class="subtitle">
-      歡迎進入花境系統。<br>
-      請輸入通關密碼，喚醒屬於你的植物彩蛋。
+      歡迎進入本系統。<br>
+      請輸入通關密碼，喚醒屬於你的彩蛋。
     </p>
 
     <div class="flower-area">
@@ -222,7 +222,7 @@
     </div>
 
     <div class="hint">
-      提示：密碼可能和演唱會、光、花、GLORIA、棋士有關。
+      提示：密碼可能和G.E.M.、GLORIA、棋士有關，不限英文或中文。
     </div>
 
     <div class="input-group">
@@ -260,34 +260,27 @@
         title: "紫光花已綻放",
         text: "驗證成功。你喚醒了『紫光花』。\n它只為仍然願意相信光的人盛開。\n今日彩蛋訊息：見過光，就應該把光反射出去。"
       },
-      "LIGHT": {
-        emoji: "✨",
-        title: "星燈花已綻放",
-        text: "驗證成功。你喚醒了『星燈花』。\n它會在黑暗裡發亮，也提醒你曾經為誰心動。\n今日彩蛋訊息：有些聲音，會陪你走很遠很遠。"
-      },
-      "QUEEN": {
-        emoji: "👑",
-        title: "王冠花已綻放",
-        text: "驗證成功。你喚醒了『王冠花』。\n它象徵勇氣、自信與舞台上的耀眼時刻。\n今日彩蛋訊息：真正的閃耀，不只是被看見，而是始終沒有放棄自己。"
-      },
       "棋士": {
-        emoji: "🌸",
-        title: "隱藏花種已解鎖",
-        text: "恭喜你解鎖隱藏版『棋士花』。\n這朵花只送給懂得交換、懂得珍惜、也願意把喜歡延續下去的人。\n今日彩蛋訊息：我們也許不認識，但我們喜歡同一個人。"
-      },
-      "GEM": {
         emoji: "💎",
-        title: "鑽光花已綻放",
-        text: "驗證成功。你喚醒了『鑽光花』。\n它在花境資料庫中，被標記為最接近夢想形狀的花。\n今日彩蛋訊息：喜歡一個人發光，也是一種很浪漫的事。"
+        title: "已解鎖棋士",
+        text: "恭喜你解鎖『棋士』。\n只送給懂得交換、懂得珍惜、也願意把喜歡延續下去的人。\n今日彩蛋訊息：我們也許不認識，但我們喜歡同一個人。"
+      },
+      "G.E.M.": {
+        emoji: "👑",
+        title: "皇冠花已綻放",
+        text: "驗證成功。你喚醒了『皇冠花』。\n這朵花象徵舞台中央最耀眼的存在。\n今日彩蛋訊息：不是因為站在光裡才發光，而是她本來就會發光。"
+      }
+      "GEM": {
+        emoji: "👑",
+        title: "皇冠花已綻放",
+        text: "驗證成功。你喚醒了『皇冠花』。\n這朵花象徵舞台中央最耀眼的存在。\n今日彩蛋訊息：不是因為站在光裡才發光，而是她本來就會發光。"
       }
     };
 
     const hintList = [
-      "提示 1：有一組密碼和專輯/巡演氛圍有關。",
-      "提示 2：有一組密碼和『光』有關。",
-      "提示 3：有一組密碼是粉絲身份感。",
-      "提示 4：有一組密碼很像舞台上閃耀的象徵。",
-      "提示 5：有一組密碼很短，和名字有關。"
+      "提示 1：有一組密碼來自 I AM GLORIA。",
+      "提示 2：有一組密碼是粉絲身份感。",
+      "提示 3：有一組密碼很短，和名字有關。"
     ];
 
     function unlockFlower() {
@@ -313,7 +306,7 @@
       if (data) {
         resultTitle.textContent = data.title;
         resultText.innerText = data.text;
-        statusText.textContent = "系統驗證完成，植物艙啟動中……";
+        statusText.textContent = "驗證成功，正在開花……";
         flowerIcon.textContent = data.emoji;
         resultBox.classList.add("show");
 
