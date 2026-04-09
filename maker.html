@@ -58,7 +58,18 @@
       perspective: 1400px;
       width: 100%;
       max-width: 380px;
-      margin: 0 auto 22px;
+      margin: 0 auto 34px;
+    }
+
+    .card-float {
+      width: 100%;
+      animation: floating 3.6s ease-in-out infinite;
+    }
+
+    @keyframes floating {
+      0%   { transform: translateY(0px); }
+      50%  { transform: translateY(-10px); }
+      100% { transform: translateY(0px); }
     }
 
     .flip-card {
@@ -122,12 +133,6 @@
       font-size: 28px;
       font-weight: 800;
       margin: 0 0 4px;
-    }
-
-    .front-caption {
-      margin: 0;
-      font-size: 14px;
-      color: #eee4ff;
     }
 
     .card-back {
@@ -230,6 +235,44 @@
       word-break: break-word;
     }
 
+    .actions {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 16px;
+    }
+
+    .btn {
+      border: none;
+      border-radius: 14px;
+      padding: 14px 18px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.15s ease, opacity 0.15s ease;
+      text-decoration: none;
+      display: inline-block;
+      text-align: center;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      opacity: 0.95;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #ead8ff 0%, #c8a2ff 100%);
+      color: #2b0d52;
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      backdrop-filter: blur(10px);
+    }
+
     .controls {
       margin-top: 22px;
       text-align: left;
@@ -283,44 +326,6 @@
       font-family: inherit;
     }
 
-    .actions {
-      display: flex;
-      gap: 12px;
-      justify-content: center;
-      flex-wrap: wrap;
-      margin-top: 16px;
-    }
-
-    .btn {
-      border: none;
-      border-radius: 14px;
-      padding: 14px 18px;
-      font-size: 15px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: transform 0.15s ease, opacity 0.15s ease;
-      text-decoration: none;
-      display: inline-block;
-      text-align: center;
-    }
-
-    .btn:hover {
-      transform: translateY(-1px);
-      opacity: 0.95;
-    }
-
-    .btn-primary {
-      background: linear-gradient(135deg, #ead8ff 0%, #c8a2ff 100%);
-      color: #2b0d52;
-    }
-
-    .btn-secondary {
-      background: rgba(255, 255, 255, 0.1);
-      color: #fff;
-      border: 1px solid rgba(255, 255, 255, 0.16);
-      backdrop-filter: blur(10px);
-    }
-
     .full-btn {
       width: 100%;
     }
@@ -348,24 +353,6 @@
       .member-footer,
       .member-message {
         font-size: 14px;
-      }
-
-      .card-wrap {
-        perspective: 1400px;
-        width: 100%;
-        max-width: 380px;
-        margin: 0 auto 40px;
-      }
-      
-      .card-float {
-        width: 100%;
-        animation: floating 3.6s ease-in-out infinite;
-      }
-      
-      @keyframes floating {
-        0%   { transform: translateY(0px); }
-        50%  { transform: translateY(-10px); }
-        100% { transform: translateY(0px); }
       }
 
       .actions {
@@ -397,34 +384,34 @@
                 <h2 class="front-name" id="frontName">G.E.M.</h2>
               </div>
             </div>
-          </div>
 
-          <div class="card-face card-back">
-            <div class="member-badge">FAN MADE CARD</div>
+            <div class="card-face card-back">
+              <div class="member-badge">FAN MADE CARD</div>
 
-            <div class="member-head">
-              <div>
-                <h2 class="member-title" id="backTitle">G.E.M.</h2>
-                <div class="member-tour">Personal Fan Card</div>
+              <div class="member-head">
+                <div>
+                  <h2 class="member-title" id="backTitle">G.E.M.</h2>
+                  <div class="member-tour">Personal Fan Card</div>
+                </div>
+                <div class="member-heart">💜</div>
               </div>
-              <div class="member-heart">💜</div>
+
+              <div class="member-grid">
+                <div class="member-item">
+                  <div class="member-label">名稱</div>
+                  <div class="member-value" id="previewName">G.E.M. 粉絲應援卡</div>
+                </div>
+
+                <div class="member-item">
+                  <div class="member-label">編號</div>
+                  <div class="member-value" id="previewNo">未填寫</div>
+                </div>
+              </div>
+
+              <div class="member-message" id="previewText">這是屬於你的卡片 ✨</div>
+
+              <div class="member-footer">翻面後，這就是你獨一無二的粉絲卡 💜</div>
             </div>
-
-            <div class="member-grid">
-              <div class="member-item">
-                <div class="member-label">名稱</div>
-                <div class="member-value" id="previewName">G.E.M. 粉絲應援卡</div>
-              </div>
-
-              <div class="member-item">
-                <div class="member-label">編號</div>
-                <div class="member-value" id="previewNo">未填寫</div>
-              </div>
-            </div>
-
-            <div class="member-message" id="previewText">這是屬於你的卡片 ✨</div>
-
-            <div class="member-footer">翻面後，這就是你獨一無二的粉絲卡 💜</div>
           </div>
         </div>
       </div>
