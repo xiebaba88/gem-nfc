@@ -410,7 +410,9 @@
 
               <div class="member-message" id="previewText">這是屬於你的卡片 ✨</div>
 
-              <div class="member-footer">翻面後，這就是你獨一無二的粉絲卡 💜</div>
+              <div class="member-footer" id="previewFooter">
+              翻面後，這就是你獨一無二的粉絲卡 💜
+              </div>
             </div>
           </div>
         </div>
@@ -438,6 +440,9 @@
       <label class="label" for="textInput">輸入想寫的話</label>
       <textarea id="textInput" placeholder="例如：這是屬於我的應援卡 💜"></textarea>
 
+      <label class="label">輸入底部文字</label>
+      <textarea id="footerInput" placeholder="例如：這是只屬於你的光 💜"></textarea>
+      
       <button class="btn btn-primary full-btn" onclick="updateCard()">更新卡片</button>
     </div>
   </div>
@@ -468,12 +473,14 @@
       const name = document.getElementById("nameInput").value.trim() || "G.E.M.";
       const no = document.getElementById("noInput").value.trim() || "未填寫";
       const text = document.getElementById("textInput").value.trim() || "這是屬於你的卡片 ✨";
-
+      const footer = document.getElementById("footerInput").value.trim() || "翻面後，這就是你獨一無二的粉絲卡 💜";
+    
       document.getElementById("frontName").textContent = name;
       document.getElementById("backTitle").textContent = name;
       document.getElementById("previewName").textContent = `${name} 粉絲應援卡`;
       document.getElementById("previewNo").textContent = no;
       document.getElementById("previewText").textContent = text;
+      document.getElementById("previewFooter").textContent = footer;
     }
   </script>
 </body>
