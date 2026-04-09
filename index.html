@@ -58,14 +58,18 @@
       perspective: 1400px;
       width: 100%;
       max-width: 380px;
-      margin: 0 auto 22px;
+      margin: 0 auto 34px;
     }
-
+    
+    .card-float {
+      width: 100%;
+      animation: floating 3.6s ease-in-out infinite;
+    }
+    
     .flip-card {
       width: 100%;
       aspect-ratio: 0.65 / 1;
       position: relative;
-      transform-style: preserve-3d;
       cursor: pointer;
     }
     
@@ -75,18 +79,41 @@
       position: relative;
       transform-style: preserve-3d;
       transition: transform 0.8s ease;
-      animation: floating 3.6s ease-in-out infinite;
     }
     
     .flip-card.is-flipped .flip-card-inner {
       transform: rotateY(180deg);
-      animation: none;
     }
     
     @keyframes floating {
       0%   { transform: translateY(0px); }
       50%  { transform: translateY(-10px); }
       100% { transform: translateY(0px); }
+    }
+
+    .flip-card {
+      width: 100%;
+      aspect-ratio: 0.65 / 1;
+      position: relative;
+      cursor: pointer;
+    }
+    
+    .flip-card-inner {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.8s ease;
+    }
+    
+    .flip-card.is-flipped .flip-card-inner {
+      transform: rotateY(180deg);
+    }
+    
+    .flip-card,
+    .flip-card-inner,
+    .card-face {
+      z-index: 2;
     }
 
     .card-face {
@@ -238,22 +265,13 @@
       z-index: 2;
     }
 
-    .corner-badge {
-      position: absolute;
-      right: 14px;
-      bottom: 14px;
-      width: 84px;
-      opacity: 0.20;
-      filter: grayscale(1) brightness(1.8) contrast(0.9) hue-rotate(220deg);
-      pointer-events: none;
-      z-index: 1;
-    }
-
     .actions {
       display: flex;
       gap: 12px;
       justify-content: center;
       flex-wrap: wrap;
+      position: relative;
+      z-index: 1;
     }
 
     .btn {
@@ -325,9 +343,6 @@
         width: 100%;
       }
 
-      .corner-badge {
-        width: 72px;
-      }
     }
   </style>
 </head>
@@ -341,54 +356,57 @@
     </p>
 
     <div class="card-wrap">
-      <div class="flip-card" id="flipCard">
-        <div class="flip-card-inner">
-          <div class="card-face card-front">
-          <img id="frontImage" class="front-image" src="1.jpg" alt="G.E.M. 應援卡圖片" />
-          <div class="front-overlay">
-            <h2 class="front-name">G.E.M.</h2>
-          </div>
-        </div>
-
-        <div class="card-face card-back">
-          <div class="member-badge">MEMBER CARD</div>
-
-          <div class="member-head">
-            <div>
-              <h2 class="member-title">G.E.M.</h2>
-              <div class="member-tour">I AM GLORIA 2.0 台北站</div>
+      <div class="card-float">
+        <div class="flip-card" id="flipCard">
+          <div class="flip-card-inner">
+            <div class="card-face card-front">
+              <img id="frontImage" class="front-image" src="1.jpg" alt="G.E.M. 應援卡圖片" />
+              <div class="front-overlay">
+                <h2 class="front-name">G.E.M.</h2>
+              </div>
             </div>
-            <div class="member-heart">💜</div>
-          </div>
-
-          <div class="member-grid">
-            <div class="member-item">
-              <div class="member-label">身份</div>
-              <div class="member-value">鄧紫棋忠實粉絲</div>
+    
+            <div class="card-face card-back">
+              <div class="member-badge">MEMBER CARD</div>
+    
+              <div class="member-head">
+                <div>
+                  <h2 class="member-title">G.E.M.</h2>
+                  <div class="member-tour">I AM GLORIA 2.0 台北站</div>
+                </div>
+                <div class="member-heart">💜</div>
+              </div>
+    
+              <div class="member-grid">
+                <div class="member-item">
+                  <div class="member-label">身份</div>
+                  <div class="member-value">鄧紫棋忠實粉絲</div>
+                </div>
+    
+                <div class="member-item">
+                  <div class="member-label">日期</div>
+                  <div class="member-value">2026/4/9～2026/4/12 🎤</div>
+                </div>
+    
+                <div class="member-item">
+                  <div class="member-label">卡號</div>
+                  <div class="member-value" id="memberCardNo">No.527_001 ✨</div>
+                </div>
+              </div>
+    
+              <div class="member-message">
+                這是屬於你的應援卡～ 💜
+              </div>
+    
+              <div class="member-footer">💜 G.E.M. 💜
+    
+        此刻的我們，是最幸福的棋士 💎
+    
+        「見過光，就要把光反射出去」 🌟</div>
+    
+              <img src="badge.png" alt="badge" class="corner-badge">
             </div>
-
-            <div class="member-item">
-              <div class="member-label">日期</div>
-              <div class="member-value">2026/4/9～2026/4/12 🎤</div>
-            </div>
-
-            <div class="member-item">
-              <div class="member-label">卡號</div>
-              <div class="member-value" id="memberCardNo">No.527_001 ✨</div>
-            </div>
           </div>
-
-          <div class="member-message">
-            這是屬於你的應援卡～ 💜
-          </div>
-
-          <div class="member-footer" id="memberFooter">💜 G.E.M. 💜
-
-此刻的我們，是最幸福的棋士 💎
-
-「見過光，就要把光反射出去」 🌟</div>
-
-          <img src="badge.png" alt="badge" class="corner-badge">
         </div>
       </div>
     </div>
