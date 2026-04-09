@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>花境解鎖系統</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+      background:
+        linear-gradient(rgba(35, 22, 67, 0.82), rgba(78, 49, 144, 0.90)),
+        url("gem-bg.jpg") center center / cover no-repeat fixed;
+      color: #f7f2ff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 460px;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 28px;
+      padding: 28px 22px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.32);
+      text-align: center;
+    }
+
+    .small-tag {
+      display: inline-block;
+      font-size: 12px;
+      letter-spacing: 1px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: rgba(200, 162, 255, 0.22);
+      margin-bottom: 14px;
+    }
+
+    h1 {
+      font-size: 30px;
+      margin: 0 0 8px;
+    }
+
+    .subtitle {
+      font-size: 15px;
+      line-height: 1.8;
+      color: #ebdfff;
+      margin: 0 0 10px;
+    }
+
+    .card-number {
+      margin: 0 0 18px;
+      font-size: 14px;
+      color: #fff0c7;
+      letter-spacing: 0.5px;
+    }
+
+    .flower-area {
+      width: 230px;
+      height: 230px;
+      margin: 0 auto 20px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle, rgba(233,216,255,0.45), rgba(123,95,201,0.12));
+      border: 1px solid rgba(255,255,255,0.14);
+      box-shadow: inset 0 0 30px rgba(255,255,255,0.05);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .flower-img {
+      width: 82%;
+      max-height: 82%;
+      object-fit: contain;
+      transform: scale(0.2);
+      opacity: 0;
+      transition: transform 1.2s ease, opacity 1.2s ease, filter 1.2s ease;
+    }
+
+    .flower-img.seed-ready {
+      transform: scale(0.88);
+      opacity: 1;
+      filter: drop-shadow(0 0 10px rgba(255,255,255,0.15));
+    }
+
+    .flower-img.bloom {
+      transform: scale(1);
+      opacity: 1;
+      filter: drop-shadow(0 0 25px rgba(255,255,255,0.55));
+    }
+
+    .flower-img.glow {
+      animation: glowPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes glowPulse {
+      0%   { filter: drop-shadow(0 0 10px rgba(255,255,255,0.28)); }
+      50%  { filter: drop-shadow(0 0 34px rgba(255,255,255,0.82)); }
+      100% { filter: drop-shadow(0 0 10px rgba(255,255,255,0.28)); }
+    }
+
+    .hint {
+      font-size: 13px;
+      color: #ddd0ff;
+      margin-bottom: 16px;
+      line-height: 1.8;
+    }
+
+    .input-group {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    input {
+      flex: 1;
+      border: none;
+      outline: none;
+      border-radius: 14px;
+      padding: 14px 16px;
+      font-size: 15px;
+      background: rgba(255,255,255,0.12);
+      color: #fff;
+    }
+
+    input::placeholder {
+      color: rgba(255,255,255,0.66);
+    }
+
+    button {
+      border: none;
+      outline: none;
+      border-radius: 14px;
+      padding: 14px 18px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      color: #2b0d52;
+      background: linear-gradient(135deg, #ead8ff 0%, #c8a2ff 100%);
+      transition: transform 0.15s ease, opacity 0.15s ease;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+      opacity: 0.95;
+    }
+
+    .status {
+      min-height: 24px;
+      margin-top: 6px;
+      font-size: 14px;
+      color: #ffdff4;
+    }
+
+    .result {
+      margin-top: 18px;
+      padding: 18px 16px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      text-align: left;
+      display: none;
+    }
+
+    .result.show {
+      display: block;
+      animation: fadeIn 0.45s ease;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .result-title {
+      font-size: 18px;
+      margin: 0 0 10px;
+      color: #fff;
+    }
+
+    .result-text {
+      margin: 0;
+      line-height: 1.95;
+      color: #f4eeff;
+      font-size: 15px;
+      white-space: pre-line;
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 16px;
+      flex-wrap: wrap;
+    }
+
+    .actions button,
+    .actions a {
+      flex: 1;
+      min-width: 120px;
+    }
+
+    .secondary-btn {
+      background: rgba(255,255,255,0.1);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.14);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .footer-note {
+      margin-top: 18px;
+      font-size: 12px;
+      color: rgba(255,255,255,0.72);
+      line-height: 1.8;
+    }
+
+    @media (max-width: 540px) {
+      .input-group {
+        flex-direction: column;
+      }
+
+      .actions {
+        flex-direction: column;
+      }
+
+      .actions button,
+      .actions a {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="small-tag">花境解鎖系統</div>
+    <h1>《啟動花境》</h1>
+    <p class="subtitle">
+      歡迎來到解鎖區。<br>
+      輸入密碼，喚醒屬於你的花。
+    </p>
+
+    <p class="card-number" id="cardNumber">吊飾編號：No.527_001 ✨</p>
+
+    <div class="flower-area">
+      <img id="flower" src="seed.png" alt="花境種子" class="flower-img seed-ready">
+    </div>
+
+    <div class="hint" id="hintText">
+      提示：密碼可能和 G.E.M.、GLORIA、棋士、0923、Autumn Dew、0527、0816 有關。
+    </div>
+
+    <div class="input-group">
+      <input
+        type="text"
+        id="passwordInput"
+        placeholder="請輸入啟動密碼"
+        autocomplete="off"
+      />
+      <button onclick="unlockFlower()">解鎖</button>
+    </div>
+
+    <div class="status" id="statusText"></div>
+
+    <div class="result" id="resultBox">
+      <h2 class="result-title" id="resultTitle">已解鎖</h2>
+      <p class="result-text" id="resultText"></p>
+
+      <div class="actions">
+        <button class="secondary-btn" onclick="resetSystem()">重新輸入</button>
+        <button onclick="randomHint()">再拿一個提示</button>
+      </div>
+    </div>
+
+    <div class="actions" style="margin-top: 20px;">
+      <a class="secondary-btn" id="homeBtn" href="index.html">返回應援卡</a>
+      <a class="secondary-btn" id="makerBtn" href="maker.html">自製粉絲卡</a>
+    </div>
+
+    <div class="footer-note">
+      每一道信念，都會開出一朵花。<br>
+      願你在光裡相遇，也把光帶給下一位棋士。
+    </div>
+  </div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const rawId = parseInt(params.get("id"), 10);
+    const cardId = (!isNaN(rawId) && rawId >= 1 && rawId <= 30) ? rawId : 1;
+    const cardNo = `No.527_${String(cardId).padStart(3, "0")}`;
+
+    document.getElementById("cardNumber").textContent = `吊飾編號：${cardNo} ✨`;
+    document.getElementById("homeBtn").href = `index.html?id=${cardId}`;
+    document.getElementById("makerBtn").href = `maker.html?id=${cardId}`;
+
+    const passwordData = {
+      "G.E.M.": {
+        image: "sunflower.png",
+        title: "向日葵已綻放",
+        text: "你喚醒了向日葵。\n它總是朝向光的方向。\n今日訊息：喜歡一個人發光，也是一種很浪漫的事。"
+      },
+      "GEM": {
+        image: "sunflower.png",
+        title: "向日葵已綻放",
+        text: "你喚醒了向日葵。\n它總是朝向光的方向。\n今日訊息：喜歡一個人發光，也是一種很浪漫的事。"
+      },
+      "GLORIA": {
+        image: "butterfly.png",
+        title: "蝴蝶花已綻放",
+        text: "你喚醒了蝴蝶花。\n象徵重生與信念。\n今日訊息：見過光，就要把光反射出去。"
+      },
+      "棋士": {
+        image: "babysbreath.png",
+        title: "滿天星已綻放",
+        text: "你喚醒了滿天星。\n每一顆星，都是一場相遇。\n今日訊息：我們也許不認識，但我們喜歡同一個人。"
+      },
+      "0923": {
+        image: "snow.png",
+        title: "雪片蓮已綻放",
+        text: "你喚醒了雪片蓮。\n這株曾被封存的生命，終於在此刻綻放。\n今日訊息：有些等待，是為了在最對的時刻開花。"
+      },
+      "AUTUMN DEW": {
+        image: "chrysanthemum.png",
+        title: "秋菊已綻放",
+        text: "你喚醒了秋菊。\n它盛開於時間之中。\n今日訊息：走過的路，都會變成光。"
+      },
+      "0527": {
+        image: "swirl.png",
+        title: "銀色漩渦已綻放",
+        text: "你喚醒了銀色漩渦。\n一切從這裡開始。\n今日訊息：每個起點，都是命運的安排。"
+      },
+      "0816": {
+        image: "mint.png",
+        title: "薄荷已綻放",
+        text: "你喚醒了薄荷。\n象徵清新與初心。\n今日訊息：不管多久，都不要忘記最初的喜歡。"
+      }
+    };
+
+    const baseHints = [
+      "提示 1：有一組密碼來自 I AM GLORIA。",
+      "提示 2：有一組密碼是粉絲身份感。",
+      "提示 3：有一組密碼和日期有關。",
+      "提示 4：有一組密碼和名字有關。"
+    ];
+
+    const specialHints = {
+      7: "特殊提示：第 7 號吊飾，答案可能和身份感有關。",
+      13: "特殊提示：第 13 號吊飾，也許可以想想『光』。",
+      30: "隱藏提示：第 30 號吊飾很特別，試試最像名字的那組。"
+    };
+
+    function randomHint() {
+      const hintText = document.getElementById("hintText");
+      const statusText = document.getElementById("statusText");
+
+      let allHints = [...baseHints];
+      if (specialHints[cardId]) {
+        allHints.push(specialHints[cardId]);
+      }
+
+      const randomIndex = Math.floor(Math.random() * allHints.length);
+      statusText.textContent = allHints[randomIndex];
+      hintText.textContent = "提示已更新，看看下方的新提示。";
+    }
+
+    function unlockFlower() {
+      const input = document.getElementById("passwordInput").value.trim();
+      const normalized = input.toUpperCase();
+
+      const resultBox = document.getElementById("resultBox");
+      const resultTitle = document.getElementById("resultTitle");
+      const resultText = document.getElementById("resultText");
+      const statusText = document.getElementById("statusText");
+      const flower = document.getElementById("flower");
+
+      let data = null;
+
+      if (passwordData[input]) {
+        data = passwordData[input];
+      } else if (passwordData[normalized]) {
+        data = passwordData[normalized];
+      }
+
+      flower.classList.remove("bloom", "glow", "seed-ready");
+
+      if (data) {
+        statusText.textContent = "驗證成功，正在開花……";
+        resultTitle.textContent = data.title;
+        resultText.textContent = `${data.text}\n\n專屬吊飾編號：${cardNo}`;
+        resultBox.classList.add("show");
+
+        flower.src = "seed.png";
+        flower.alt = "花境種子";
+
+        setTimeout(() => {
+          flower.src = data.image;
+          flower.alt = data.title;
+          flower.classList.add("bloom");
+
+          setTimeout(() => {
+            flower.classList.add("glow");
+          }, 800);
+        }, 220);
+      } else {
+        resultBox.classList.remove("show");
+        statusText.textContent = "密碼錯誤，尚未偵測到有效訊號。";
+        flower.src = "seed.png";
+        flower.alt = "花境種子";
+        flower.classList.add("seed-ready");
+      }
+    }
+
+    function resetSystem() {
+      document.getElementById("passwordInput").value = "";
+      document.getElementById("statusText").textContent = "";
+      document.getElementById("resultBox").classList.remove("show");
+      document.getElementById("hintText").textContent = "提示：密碼可能和 G.E.M.、GLORIA、棋士、0923、Autumn Dew、0527、0816 有關。";
+
+      const flower = document.getElementById("flower");
+      flower.src = "seed.png";
+      flower.alt = "花境種子";
+      flower.classList.remove("bloom", "glow");
+      flower.classList.add("seed-ready");
+    }
+
+    document.getElementById("passwordInput").addEventListener("keydown", function(event) {
+      if (event.key === "Enter") {
+        unlockFlower();
+      }
+    });
+  </script>
+</body>
+</html>
