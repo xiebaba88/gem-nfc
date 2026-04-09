@@ -1,177 +1,474 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>自製粉絲應援卡</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>自製粉絲應援卡</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-<style>
-body {
-  margin: 0;
-  font-family: "Noto Sans TC", sans-serif;
-  background: linear-gradient(160deg,#2a1f4d,#7b5fc9);
-  color: white;
-  display: flex;
-  justify-content: center;
-  padding: 20px;
-}
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+      color: #f8f4ff;
+      background:
+        linear-gradient(rgba(30, 18, 58, 0.72), rgba(56, 30, 104, 0.82)),
+        url("gem-bg.jpg") center center / cover no-repeat fixed;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
 
-.container {
-  width: 100%;
-  max-width: 420px;
-}
+    .page {
+      width: 100%;
+      max-width: 520px;
+      text-align: center;
+    }
 
-h1 {
-  text-align: center;
-}
+    .top-badge {
+      display: inline-block;
+      margin-bottom: 14px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(200, 162, 255, 0.18);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      backdrop-filter: blur(10px);
+      font-size: 13px;
+      letter-spacing: 1px;
+    }
 
-.card {
-  width: 100%;
-  aspect-ratio: 0.65/1;
-  perspective: 1000px;
-  margin-bottom: 20px;
-}
+    .title {
+      margin: 0 0 8px;
+      font-size: 32px;
+      font-weight: 800;
+    }
 
-.inner {
-  width: 100%;
-  height: 100%;
-  position: relative;
-  transform-style: preserve-3d;
-  transition: 0.6s;
-}
+    .subtitle {
+      margin: 0 0 22px;
+      color: #eadfff;
+      font-size: 15px;
+      line-height: 1.8;
+    }
 
-.card.flip .inner {
-  transform: rotateY(180deg);
-}
+    .card-wrap {
+      perspective: 1400px;
+      width: 100%;
+      max-width: 380px;
+      margin: 0 auto 22px;
+    }
 
-.face {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  border-radius: 20px;
-  overflow: hidden;
-  backface-visibility: hidden;
-}
+    .flip-card {
+      width: 100%;
+      aspect-ratio: 0.65 / 1;
+      position: relative;
+      cursor: pointer;
+    }
 
-.front img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
+    .flip-card-inner {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.8s ease;
+    }
 
-.back {
-  background: rgba(255,255,255,0.1);
-  backdrop-filter: blur(10px);
-  transform: rotateY(180deg);
-  padding: 16px;
-}
+    .flip-card.is-flipped .flip-card-inner {
+      transform: rotateY(180deg);
+    }
 
-input, textarea {
-  width: 100%;
-  margin-bottom: 10px;
-  padding: 10px;
-  border-radius: 10px;
-  border: none;
-}
+    .card-face {
+      position: absolute;
+      inset: 0;
+      border-radius: 28px;
+      overflow: hidden;
+      backface-visibility: hidden;
+      box-shadow: 0 18px 50px rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+    }
 
-button {
-  width: 100%;
-  padding: 12px;
-  border-radius: 12px;
-  border: none;
-  font-weight: bold;
-  background: #e9d8ff;
-  color: #2b0d52;
-}
+    .card-front {
+      background: #2a1f4d;
+    }
 
-.preview-text {
-  white-space: pre-line;
-}
-</style>
+    .front-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .front-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to top,
+        rgba(22, 10, 42, 0.85) 0%,
+        rgba(22, 10, 42, 0.15) 45%,
+        rgba(22, 10, 42, 0.05) 100%
+      );
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-items: flex-start;
+      padding: 20px 18px;
+      text-align: left;
+    }
+
+    .front-name {
+      font-size: 28px;
+      font-weight: 800;
+      margin: 0 0 4px;
+    }
+
+    .front-caption {
+      margin: 0;
+      font-size: 14px;
+      color: #eee4ff;
+    }
+
+    .card-back {
+      transform: rotateY(180deg);
+      background:
+        linear-gradient(165deg, rgba(93, 58, 170, 0.95), rgba(150, 110, 225, 0.88));
+      backdrop-filter: blur(14px);
+      padding: 22px 20px;
+      text-align: left;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .member-badge {
+      align-self: flex-start;
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.14);
+      margin-bottom: 14px;
+    }
+
+    .member-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .member-title {
+      margin: 0;
+      font-size: 28px;
+      font-weight: 800;
+      line-height: 1.1;
+    }
+
+    .member-tour {
+      margin-top: 6px;
+      font-size: 13px;
+      color: rgba(255,255,255,0.82);
+      line-height: 1.6;
+    }
+
+    .member-heart {
+      font-size: 28px;
+    }
+
+    .member-grid {
+      display: grid;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .member-item {
+      padding: 12px 14px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.10);
+    }
+
+    .member-label {
+      font-size: 12px;
+      color: rgba(255,255,255,0.72);
+      margin-bottom: 4px;
+      letter-spacing: 1px;
+    }
+
+    .member-value {
+      font-size: 16px;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.6;
+      white-space: pre-line;
+      word-break: break-word;
+    }
+
+    .member-message {
+      margin-top: 2px;
+      margin-bottom: 18px;
+      font-size: 16px;
+      font-weight: 700;
+      color: #fff7ff;
+      white-space: pre-line;
+      word-break: break-word;
+    }
+
+    .member-footer {
+      margin-top: auto;
+      padding-top: 14px;
+      border-top: 1px solid rgba(255,255,255,0.18);
+      font-size: 14px;
+      color: #f5edff;
+      line-height: 1.8;
+      white-space: pre-line;
+      word-break: break-word;
+    }
+
+    .controls {
+      margin-top: 22px;
+      text-align: left;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 22px;
+      padding: 18px 16px;
+      backdrop-filter: blur(12px);
+    }
+
+    .controls-title {
+      margin: 0 0 14px;
+      font-size: 16px;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .label {
+      display: block;
+      margin: 0 0 8px;
+      font-size: 13px;
+      color: #eadfff;
+    }
+
+    input[type="text"],
+    textarea,
+    input[type="file"] {
+      width: 100%;
+      margin-bottom: 12px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      border: none;
+      outline: none;
+      font-size: 15px;
+      background: rgba(255,255,255,0.14);
+      color: #fff;
+    }
+
+    input[type="file"] {
+      padding: 10px 12px;
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+      color: rgba(255,255,255,0.66);
+    }
+
+    textarea {
+      min-height: 110px;
+      resize: vertical;
+      font-family: inherit;
+    }
+
+    .actions {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 16px;
+    }
+
+    .btn {
+      border: none;
+      border-radius: 14px;
+      padding: 14px 18px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.15s ease, opacity 0.15s ease;
+      text-decoration: none;
+      display: inline-block;
+      text-align: center;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      opacity: 0.95;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #ead8ff 0%, #c8a2ff 100%);
+      color: #2b0d52;
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      backdrop-filter: blur(10px);
+    }
+
+    .full-btn {
+      width: 100%;
+    }
+
+    @media (max-width: 560px) {
+      .title {
+        font-size: 28px;
+      }
+
+      .subtitle {
+        font-size: 14px;
+      }
+
+      .card-wrap {
+        max-width: 340px;
+      }
+
+      .member-title {
+        font-size: 22px;
+      }
+
+      .member-tour,
+      .member-label,
+      .member-value,
+      .member-footer,
+      .member-message {
+        font-size: 14px;
+      }
+
+      .actions {
+        flex-direction: column;
+      }
+
+      .btn {
+        width: 100%;
+      }
+    }
+  </style>
 </head>
-
 <body>
-<div class="container">
+  <div class="page">
+    <div class="top-badge">G.E.M. 自製粉絲應援卡</div>
+    <h1 class="title">💜 自製粉絲應援卡</h1>
+    <p class="subtitle">
+      上傳你的圖片、填入名字與內容，<br>
+      做一張屬於自己的卡片。
+    </p>
 
-<h1>💜 自製粉絲應援卡</h1>
+    <div class="card-wrap">
+      <div class="flip-card" id="flipCard">
+        <div class="flip-card-inner">
+          <div class="card-face card-front">
+            <img id="previewImg" class="front-image" src="1.jpg" alt="自製粉絲卡圖片" />
+            <div class="front-overlay">
+              <h2 class="front-name" id="frontName">G.E.M.</h2>
+              <p class="front-caption">Tap to flip your card</p>
+            </div>
+          </div>
 
-<div class="card" id="card">
-  <div class="inner">
+          <div class="card-face card-back">
+            <div class="member-badge">FAN MADE CARD</div>
 
-    <!-- 正面 -->
-    <div class="face front">
-      <img id="previewImg" src="1.jpg">
-    </div>
+            <div class="member-head">
+              <div>
+                <h2 class="member-title" id="backTitle">G.E.M.</h2>
+                <div class="member-tour">Personal Fan Card</div>
+              </div>
+              <div class="member-heart">💜</div>
+            </div>
 
-    <!-- 背面 -->
-    <div class="face back">
-      <div class="preview-text" id="previewText">
-G.E.M. 粉絲應援卡 💜
+            <div class="member-grid">
+              <div class="member-item">
+                <div class="member-label">名稱</div>
+                <div class="member-value" id="previewName">G.E.M. 粉絲應援卡</div>
+              </div>
 
-No.001
+              <div class="member-item">
+                <div class="member-label">編號</div>
+                <div class="member-value" id="previewNo">未填寫</div>
+              </div>
+            </div>
 
-這是屬於你的卡片 ✨
+            <div class="member-message" id="previewText">這是屬於你的卡片 ✨</div>
+
+            <div class="member-footer">翻面後，這就是你獨一無二的粉絲卡 💜</div>
+          </div>
+        </div>
       </div>
     </div>
 
+    <div class="actions">
+      <button class="btn btn-primary" onclick="flipCard()">翻面</button>
+      <a class="btn btn-secondary" id="homeBtn" href="index.html">返回應援卡</a>
+      <a class="btn btn-secondary" id="gameBtn" href="game.html">進入小遊戲</a>
+    </div>
+
+    <div class="controls">
+      <p class="controls-title">編輯你的卡片</p>
+
+      <label class="label" for="imgInput">選擇圖片</label>
+      <input type="file" id="imgInput" accept="image/*">
+
+      <label class="label" for="nameInput">輸入名稱</label>
+      <input type="text" id="nameInput" placeholder="例如：G.E.M. / Gloria / 我的專屬卡">
+
+      <label class="label" for="noInput">輸入編號</label>
+      <input type="text" id="noInput" placeholder="例如：001 / VIP-01 / GLORIA-LOVE">
+
+      <label class="label" for="textInput">輸入想寫的話</label>
+      <textarea id="textInput" placeholder="例如：這是屬於我的應援卡 💜"></textarea>
+
+      <button class="btn btn-primary full-btn" onclick="updateCard()">更新卡片</button>
+    </div>
   </div>
-</div>
 
-<button onclick="flipCard()">翻面</button>
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get("id") || "1";
 
-<hr>
+    document.getElementById("homeBtn").href = `index.html?id=${id}`;
+    document.getElementById("gameBtn").href = `game.html?id=${id}`;
 
-<input type="file" id="imgInput">
-
-<input type="text" id="nameInput" placeholder="輸入名稱">
-<input type="text" id="noInput" placeholder="輸入編號">
-<textarea id="textInput" placeholder="輸入想寫的話"></textarea>
-
-<button onclick="updateCard()">更新卡片</button>
-
-</div>
-
-<script>
-
-// 讀 id（跟你30卡串）
-const params = new URLSearchParams(window.location.search);
-const id = params.get("id") || "1";
-
-// 預設編號
-document.getElementById("noInput").value = id.padStart(3,"0");
-
-// 翻面
-function flipCard(){
-  document.getElementById("card").classList.toggle("flip");
-}
-
-// 上傳圖片
-document.getElementById("imgInput").addEventListener("change", function(e){
-  const file = e.target.files[0];
-  if(file){
-    const reader = new FileReader();
-    reader.onload = function(){
-      document.getElementById("previewImg").src = reader.result;
+    function flipCard() {
+      document.getElementById("flipCard").classList.toggle("is-flipped");
     }
-    reader.readAsDataURL(file);
-  }
-});
 
-// 更新卡片
-function updateCard(){
-  const name = document.getElementById("nameInput").value || "G.E.M.";
-  const no = document.getElementById("noInput").value || "001";
-  const text = document.getElementById("textInput").value || "這是屬於你的卡片 💜";
+    document.getElementById("imgInput").addEventListener("change", function (e) {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function () {
+          document.getElementById("previewImg").src = reader.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    });
 
-  document.getElementById("previewText").innerText =
-`${name} 粉絲應援卡 💜
+    function updateCard() {
+      const name = document.getElementById("nameInput").value.trim() || "G.E.M.";
+      const no = document.getElementById("noInput").value.trim() || "未填寫";
+      const text = document.getElementById("textInput").value.trim() || "這是屬於你的卡片 ✨";
 
-No.${no}
-
-${text}`;
-}
-
-</script>
-
+      document.getElementById("frontName").textContent = name;
+      document.getElementById("backTitle").textContent = name;
+      document.getElementById("previewName").textContent = `${name} 粉絲應援卡`;
+      document.getElementById("previewNo").textContent = no;
+      document.getElementById("previewText").textContent = text;
+    }
+  </script>
 </body>
 </html>
