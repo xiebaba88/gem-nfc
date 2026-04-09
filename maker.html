@@ -16,7 +16,7 @@
       color: #f8f4ff;
       background:
         linear-gradient(rgba(30, 18, 58, 0.72), rgba(56, 30, 104, 0.82)),
-        url("gem-bg.jpg") center center / cover no-repeat fixed;
+        url("gem-bg2.jpg") center center / cover no-repeat fixed;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -350,6 +350,24 @@
         font-size: 14px;
       }
 
+      .card-wrap {
+        perspective: 1400px;
+        width: 100%;
+        max-width: 380px;
+        margin: 0 auto 40px;
+      }
+      
+      .card-float {
+        width: 100%;
+        animation: floating 3.6s ease-in-out infinite;
+      }
+      
+      @keyframes floating {
+        0%   { transform: translateY(0px); }
+        50%  { transform: translateY(-10px); }
+        100% { transform: translateY(0px); }
+      }
+
       .actions {
         flex-direction: column;
       }
@@ -370,13 +388,14 @@
     </p>
 
     <div class="card-wrap">
-      <div class="flip-card" id="flipCard">
-        <div class="flip-card-inner">
-          <div class="card-face card-front">
-            <img id="previewImg" class="front-image" src="1.jpg" alt="自製粉絲卡圖片" />
-            <div class="front-overlay">
-              <h2 class="front-name" id="frontName">G.E.M.</h2>
-              <p class="front-caption">Tap to flip your card</p>
+      <div class="card-float">
+        <div class="flip-card" id="flipCard">
+          <div class="flip-card-inner">
+            <div class="card-face card-front">
+              <img id="previewImg" class="front-image" src="1.jpg" alt="自製粉絲卡圖片" />
+              <div class="front-overlay">
+                <h2 class="front-name" id="frontName">G.E.M.</h2>
+              </div>
             </div>
           </div>
 
