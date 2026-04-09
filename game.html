@@ -35,16 +35,6 @@
       text-align: center;
     }
 
-    .small-tag {
-      display: inline-block;
-      font-size: 12px;
-      letter-spacing: 1px;
-      padding: 6px 12px;
-      border-radius: 999px;
-      background: rgba(200, 162, 255, 0.22);
-      margin-bottom: 14px;
-    }
-
     h1 {
       font-size: 30px;
       margin: 0 0 8px;
@@ -55,13 +45,6 @@
       line-height: 1.8;
       color: #ebdfff;
       margin: 0 0 10px;
-    }
-
-    .card-number {
-      margin: 0 0 18px;
-      font-size: 14px;
-      color: #fff0c7;
-      letter-spacing: 0.5px;
     }
 
     .flower-area {
@@ -158,9 +141,11 @@
 
     .status {
       min-height: 24px;
-      margin-top: 6px;
+      margin-top: 10px;
       font-size: 14px;
       color: #ffdff4;
+      white-space: pre-line;
+      line-height: 1.8;
     }
 
     .result {
@@ -251,11 +236,11 @@
 </head>
 <body>
   <div class="card">
-    <div class="small-tag">小遊戲系統</div>
-    <h1>《啟動小遊戲》</h1>
+    <h1>《小遊戲系統》</h1>
     <p class="subtitle">
       歡迎來到小遊戲區。<br>
-      輸入密碼，喚醒屬於你的花。
+      這個遊戲靈感來自鄧紫棋小說《啟示錄》。<br>
+      請輸入密碼，喚醒屬於你的花。
     </p>
 
     <div class="flower-area">
@@ -263,7 +248,12 @@
     </div>
 
     <div class="hint" id="hintText">
-      提示：密碼可能和 G.E.M.、GLORIA、棋士、0923、Autumn Dew、0527、0816 有關。
+      提示：密碼不限中英文或數字，可能和鄧紫棋、《啟示錄》或某個特別日子有關。
+    </div>
+
+    <div class="actions">
+      <button onclick="nextHint()">🎯 提示</button>
+      <button onclick="nextAnswer()">👀 偷看答案</button>
     </div>
 
     <div class="input-group">
@@ -273,18 +263,17 @@
         placeholder="請輸入啟動密碼"
         autocomplete="off"
       />
-      <button onclick="unlockFlower()">小遊戲</button>
+      <button onclick="unlockFlower()">輸入</button>
     </div>
 
     <div class="status" id="statusText"></div>
 
     <div class="result" id="resultBox">
-      <h2 class="result-title" id="resultTitle">已小遊戲</h2>
+      <h2 class="result-title" id="resultTitle">已解鎖</h2>
       <p class="result-text" id="resultText"></p>
 
       <div class="actions">
         <button class="secondary-btn" onclick="resetSystem()">重新輸入</button>
-        <button onclick="randomHint()">再拿一個提示</button>
       </div>
     </div>
 
@@ -294,8 +283,8 @@
     </div>
 
     <div class="footer-note">
-      每一道信念，都會開出一朵花。<br>
-      願你在光裡相遇，也把光帶給下一位棋士。
+      天空沒有極限，<br>
+      我的未來無邊。
     </div>
   </div>
 
@@ -303,7 +292,6 @@
     const params = new URLSearchParams(window.location.search);
     const rawId = parseInt(params.get("id"), 10);
     const cardId = (!isNaN(rawId) && rawId >= 1 && rawId <= 30) ? rawId : 1;
-    const cardNo = `No.527_${String(cardId).padStart(3, "0")}`;
 
     document.getElementById("homeBtn").href = `index.html?id=${cardId}`;
     document.getElementById("makerBtn").href = `maker.html?id=${cardId}`;
@@ -329,53 +317,68 @@
         title: "滿天星已綻放",
         text: "你喚醒了滿天星。\n每一顆星，都是一場相遇。\n今日訊息：我們也許不認識，但我們喜歡同一個人。"
       },
-      "0923": {
-        image: "snow.png",
-        title: "雪片蓮已綻放",
-        text: "你喚醒了雪片蓮。\n這株曾被封存的生命，終於在此刻綻放。\n今日訊息：有些等待，是為了在最對的時刻開花。"
-      },
-      "AUTUMN DEW": {
-        image: "chrysanthemum.png",
-        title: "秋菊已綻放",
-        text: "你喚醒了秋菊。\n它盛開於時間之中。\n今日訊息：走過的路，都會變成光。"
+      "0302": {
+        image: "swirl.png",
+        title: "銀色漩渦已綻放",
+        text: "你喚醒了銀色漩渦。\n這是一組來自小說的日期密碼。\n今日訊息：有些線索，藏在家的密碼裡。"
       },
       "0527": {
         image: "swirl.png",
         title: "銀色漩渦已綻放",
-        text: "你喚醒了銀色漩渦。\n一切從這裡開始。\n今日訊息：每個起點，都是命運的安排。"
+        text: "你喚醒了銀色漩渦。\n這是一組來自小說的日期密碼。\n今日訊息：如果神讓你看見，也許你會明白這一切。"
+      },
+      "0923": {
+        image: "snow.png",
+        title: "雪片蓮已綻放",
+        text: "你喚醒了雪片蓮。\n這株曾被封存的生命，終於在此刻綻放。\n今日訊息：讓世界暫停一分鐘，也許就能看見真正重要的事。"
       },
       "0816": {
         image: "mint.png",
         title: "薄荷已綻放",
         text: "你喚醒了薄荷。\n象徵清新與初心。\n今日訊息：不管多久，都不要忘記最初的喜歡。"
+      },
+      "AUTUMN DEW": {
+        image: "chrysanthemum.png",
+        title: "秋菊已綻放",
+        text: "你喚醒了秋菊。\n它盛開於時間之中。\n今日訊息：走過的路，都會變成光。"
       }
     };
 
-    const baseHints = [
-      "提示 1：有一組密碼來自 I AM GLORIA。",
-      "提示 2：有一組密碼是粉絲身份感。",
-      "提示 3：有一組密碼和日期有關。",
-      "提示 4：有一組密碼和名字有關。"
+    const hints = [
+      "提示1：有一組密碼和名字有關。",
+      "提示2：有一組密碼和巡演主題有關。",
+      "提示3：有一組密碼是日期（0302），來自小說『家的密碼...』",
+      "提示4：有一組密碼是日期（0527），來自小說『如果神讓你看見』",
+      "提示5：有一組密碼是日期（0923），來自小說『讓世界暫停一分鐘』",
+      "提示6：有一組密碼與特殊日期有關。",
+      "提示7：有一組密碼是粉絲身份感。"
     ];
 
-    const specialHints = {
-      7: "特殊提示：第 7 號吊飾，答案可能和身份感有關。",
-      13: "特殊提示：第 13 號吊飾，也許可以想想『光』。",
-      30: "隱藏提示：第 30 號吊飾很特別，試試最像名字的那組。"
-    };
+    const answers = [
+      "G.E.M.",
+      "GLORIA",
+      "0302",
+      "0527",
+      "0923",
+      "0816",
+      "棋士"
+    ];
 
-    function randomHint() {
-      const hintText = document.getElementById("hintText");
+    let hintIndex = 0;
+    let answerIndex = 0;
+
+    function nextHint() {
       const statusText = document.getElementById("statusText");
+      statusText.textContent = hints[hintIndex];
+      hintIndex++;
+      if (hintIndex >= hints.length) hintIndex = 0;
+    }
 
-      let allHints = [...baseHints];
-      if (specialHints[cardId]) {
-        allHints.push(specialHints[cardId]);
-      }
-
-      const randomIndex = Math.floor(Math.random() * allHints.length);
-      statusText.textContent = allHints[randomIndex];
-      hintText.textContent = "提示已更新，看看下方的新提示。";
+    function nextAnswer() {
+      const statusText = document.getElementById("statusText");
+      statusText.textContent = `答案提示：${answers[answerIndex]}`;
+      answerIndex++;
+      if (answerIndex >= answers.length) answerIndex = 0;
     }
 
     function unlockFlower() {
@@ -401,6 +404,7 @@
       if (data) {
         statusText.textContent = "驗證成功，正在開花……";
         resultTitle.textContent = data.title;
+        resultText.textContent = data.text;
         resultBox.classList.add("show");
 
         flower.src = "seed.png";
@@ -428,7 +432,7 @@
       document.getElementById("passwordInput").value = "";
       document.getElementById("statusText").textContent = "";
       document.getElementById("resultBox").classList.remove("show");
-      document.getElementById("hintText").textContent = "提示：密碼可能和 G.E.M.、GLORIA、棋士、0923、Autumn Dew、0527、0816 有關。";
+      document.getElementById("hintText").textContent = "提示：密碼不限中英文或數字，可能和鄧紫棋、《啟示錄》或某個特別日子有關。";
 
       const flower = document.getElementById("flower");
       flower.src = "seed.png";
