@@ -82,7 +82,7 @@
     }
 
     .flip-card.is-flipped {
-      animation: none;
+      animation: floating 3.6s ease-in-out infinite;
       transform: rotateY(180deg);
     }
 
@@ -350,7 +350,16 @@ No.527_001 ✨
     const cardNo = `No.527_${String(cardId).padStart(3, "0")}`;
     const imageFile = `${cardId}.jpg`;
 
-    document.getElementById("frontImage").src = imageFile;
+    const img = document.getElementById("frontImage");
+
+    // 先設定圖片
+    img.src = imageFile;
+    
+    // 如果圖片不存在 → fallback
+    img.onerror = () => {
+      img.src = "1.jpg";
+    };
+    
     document.getElementById("frontNo").textContent = `${cardNo} ✨`;
     document.getElementById("currentCardNo").textContent = cardNo;
 
