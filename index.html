@@ -292,7 +292,7 @@
         <div class="card-face card-front">
           <img id="frontImage" class="front-image" src="1.jpg" alt="G.E.M. 應援卡圖片" />
           <div class="front-overlay">
-            <div class="front-no" id="frontNo">No.527_001 ✨</div>
+            <!-- 移除編號 -->
             <h2 class="front-name">G.E.M.</h2>
             <p class="front-caption">Tap to flip your member card</p>
           </div>
@@ -329,8 +329,6 @@ No.527_001 ✨
       </div>
     </div>
 
-    <p class="tip">目前顯示卡號：<span id="currentCardNo">No.527_001</span></p>
-
     <div class="actions">
       <a class="btn btn-primary" id="makerBtn" href="maker.html">自製粉絲卡</a>
       <a class="btn btn-secondary" id="gameBtn" href="game.html">進入小遊戲</a>
@@ -359,9 +357,7 @@ No.527_001 ✨
     img.onerror = () => {
       img.src = "1.jpg";
     };
-    
-    document.getElementById("frontNo").textContent = `${cardNo} ✨`;
-    document.getElementById("currentCardNo").textContent = cardNo;
+
 
     document.getElementById("memberBody").textContent =
 `《G.E.M. 鄧紫棋 I AM GLORIA 世界巡迴演唱會 2.0－台北站》
