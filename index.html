@@ -81,11 +81,6 @@
       100% { transform: translateY(0px); }
     }
 
-    .flip-card.is-flipped {
-      animation: floating 3.6s ease-in-out infinite;
-      transform: rotateY(180deg);
-    }
-
     .card-face {
       position: absolute;
       inset: 0;
@@ -124,13 +119,6 @@
       text-align: left;
     }
 
-    .front-no {
-      font-size: 13px;
-      color: #f0e6ff;
-      margin-bottom: 6px;
-      letter-spacing: 1px;
-    }
-
     .front-name {
       font-size: 28px;
       font-weight: 800;
@@ -146,14 +134,25 @@
     .card-back {
       transform: rotateY(180deg);
       background:
-        linear-gradient(160deg, rgba(80, 48, 145, 0.92), rgba(168, 124, 255, 0.82)),
-        rgba(255, 255, 255, 0.08);
+        linear-gradient(165deg, rgba(93, 58, 170, 0.95), rgba(150, 110, 225, 0.88));
       backdrop-filter: blur(14px);
       padding: 22px 20px;
       text-align: left;
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .member-badge {
+      align-self: flex-start;
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.14);
+      margin-bottom: 14px;
     }
 
     .member-head {
@@ -161,46 +160,85 @@
       justify-content: space-between;
       align-items: flex-start;
       gap: 12px;
-      margin-bottom: 14px;
+      margin-bottom: 18px;
+      z-index: 2;
     }
 
     .member-title {
       margin: 0;
-      font-size: 26px;
+      font-size: 28px;
       font-weight: 800;
       line-height: 1.1;
     }
 
+    .member-tour {
+      margin-top: 6px;
+      font-size: 13px;
+      color: rgba(255,255,255,0.82);
+      line-height: 1.6;
+    }
+
     .member-heart {
-      font-size: 30px;
+      font-size: 28px;
     }
 
-    .member-body {
-      font-size: 15px;
-      line-height: 1.9;
-      color: #fcf9ff;
-      white-space: pre-line;
+    .member-grid {
+      display: grid;
+      gap: 12px;
+      margin-bottom: 18px;
+      z-index: 2;
     }
 
-    .member-highlight {
-      color: #fff4b8;
+    .member-item {
+      padding: 12px 14px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.10);
+    }
+
+    .member-label {
+      font-size: 12px;
+      color: rgba(255,255,255,0.72);
+      margin-bottom: 4px;
+      letter-spacing: 1px;
+    }
+
+    .member-value {
+      font-size: 16px;
       font-weight: 700;
+      color: #fff;
+      line-height: 1.6;
+    }
+
+    .member-message {
+      margin-top: 2px;
+      margin-bottom: 18px;
+      font-size: 16px;
+      font-weight: 700;
+      color: #fff7ff;
+      z-index: 2;
     }
 
     .member-footer {
-      margin-top: 16px;
+      margin-top: auto;
       padding-top: 14px;
-      border-top: 1px solid rgba(255, 255, 255, 0.18);
+      border-top: 1px solid rgba(255,255,255,0.18);
       font-size: 14px;
       color: #f5edff;
       line-height: 1.8;
       white-space: pre-line;
+      z-index: 2;
     }
 
-    .tip {
-      margin: 0 0 18px;
-      color: #eadfff;
-      font-size: 14px;
+    .corner-badge {
+      position: absolute;
+      right: 14px;
+      bottom: 14px;
+      width: 84px;
+      opacity: 0.20;
+      filter: grayscale(1) brightness(1.8) contrast(0.9) hue-rotate(220deg);
+      pointer-events: none;
+      z-index: 1;
     }
 
     .actions {
@@ -263,8 +301,11 @@
         font-size: 22px;
       }
 
-      .member-body,
-      .member-footer {
+      .member-tour,
+      .member-label,
+      .member-value,
+      .member-footer,
+      .member-message {
         font-size: 14px;
       }
 
@@ -274,6 +315,10 @@
 
       .btn {
         width: 100%;
+      }
+
+      .corner-badge {
+        width: 72px;
       }
     }
   </style>
@@ -292,39 +337,50 @@
         <div class="card-face card-front">
           <img id="frontImage" class="front-image" src="1.jpg" alt="G.E.M. 應援卡圖片" />
           <div class="front-overlay">
-            <!-- 移除編號 -->
             <h2 class="front-name">G.E.M.</h2>
-            <p class="front-caption">Tap to flip your member card</p>
+            <p class="front-caption">Tap to reveal your card</p>
           </div>
         </div>
 
         <div class="card-face card-back">
-          <div>
-            <div class="member-head">
+          <div class="member-badge">MEMBER CARD</div>
+
+          <div class="member-head">
+            <div>
               <h2 class="member-title">G.E.M.</h2>
-              <div class="member-heart">💜</div>
+              <div class="member-tour">I AM GLORIA 2.0 台北站</div>
+            </div>
+            <div class="member-heart">💜</div>
+          </div>
+
+          <div class="member-grid">
+            <div class="member-item">
+              <div class="member-label">身份</div>
+              <div class="member-value">鄧紫棋忠實粉絲</div>
             </div>
 
-            <div class="member-body" id="memberBody">
-《G.E.M. 鄧紫棋 I AM GLORIA 世界巡迴演唱會 2.0－台北站》
+            <div class="member-item">
+              <div class="member-label">日期</div>
+              <div class="member-value">2026/4/11 🎤</div>
+            </div>
 
-身份：鄧紫棋忠實粉絲 💜
-
-日期：2026/4/9~12 🎤
-
-No.527_001 ✨
-
-這是屬於你的應援卡～ 💜
+            <div class="member-item">
+              <div class="member-label">卡號</div>
+              <div class="member-value" id="memberCardNo">No.527_001 ✨</div>
             </div>
           </div>
 
-          <div class="member-footer" id="memberFooter">
-💜 G.E.M. 💜
+          <div class="member-message">
+            這是屬於你的應援卡～ 💜
+          </div>
+
+          <div class="member-footer" id="memberFooter">💜 G.E.M. 💜
 
 此刻的我們，是最幸福的棋士 💎
 
-「見過光，就要把光反射出去」 🌟
-          </div>
+「見過光，就要把光反射出去」 🌟</div>
+
+          <img src="badge.png" alt="badge" class="corner-badge">
         </div>
       </div>
     </div>
@@ -349,26 +405,12 @@ No.527_001 ✨
     const imageFile = `${cardId}.jpg`;
 
     const img = document.getElementById("frontImage");
-
-    // 先設定圖片
     img.src = imageFile;
-    
-    // 如果圖片不存在 → fallback
     img.onerror = () => {
       img.src = "1.jpg";
     };
 
-
-    document.getElementById("memberBody").textContent =
-`《G.E.M. 鄧紫棋 I AM GLORIA 世界巡迴演唱會 2.0－台北站》
-
-身份：鄧紫棋忠實粉絲 💜
-
-日期：2026/4/9~12 🎤
-
-${cardNo} ✨
-
-這是屬於你的應援卡～ 💜`;
+    document.getElementById("memberCardNo").textContent = `${cardNo} ✨`;
 
     const flipCard = document.getElementById("flipCard");
     flipCard.addEventListener("click", () => {
