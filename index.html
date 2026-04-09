@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>啓示錄系統</title>
+  <title>G.E.M. 應援卡</title>
   <style>
     * {
       box-sizing: border-box;
@@ -13,333 +13,365 @@
       margin: 0;
       min-height: 100vh;
       font-family: "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+      color: #f8f4ff;
       background:
-        radial-gradient(circle at top, rgba(200, 162, 255, 0.5), transparent 40%),
-        linear-gradient(160deg, #2a1f4d 0%, #4b2f91 50%, #7b5fc9 100%);
-      color: #f6f3ff;
+        linear-gradient(rgba(30, 18, 58, 0.72), rgba(56, 30, 104, 0.82)),
+        url("gem-bg.jpg") center center / cover no-repeat fixed;
       display: flex;
       align-items: center;
       justify-content: center;
       padding: 24px;
     }
 
-    .card {
+    .page {
       width: 100%;
-      max-width: 460px;
-      background: rgba(255, 255, 255, 0.08);
-      backdrop-filter: blur(14px);
-      border: 1px solid rgba(255, 255, 255, 0.16);
-      border-radius: 24px;
-      padding: 28px 22px;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+      max-width: 520px;
       text-align: center;
     }
 
-    .small-tag {
+    .top-badge {
       display: inline-block;
-      font-size: 12px;
-      letter-spacing: 1px;
-      padding: 6px 10px;
-      border-radius: 999px;
-      background: rgba(200, 162, 255, 0.2);
       margin-bottom: 14px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(200, 162, 255, 0.18);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      backdrop-filter: blur(10px);
+      font-size: 13px;
+      letter-spacing: 1px;
     }
 
-    h1 {
-      font-size: 28px;
-      margin: 0 0 10px;
+    .title {
+      margin: 0 0 8px;
+      font-size: 32px;
+      font-weight: 800;
     }
 
     .subtitle {
+      margin: 0 0 22px;
+      color: #eadfff;
       font-size: 15px;
       line-height: 1.8;
-      color: #e6ddff;
-      margin: 0 0 22px;
     }
 
-    .flower-area {
-      width: 180px;
-      height: 180px;
-      margin: 0 auto 20px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: radial-gradient(circle, rgba(233,216,255,0.4), rgba(123,95,201,0.1));
-      border: 1px solid rgba(255,255,255,0.14);
-      box-shadow: inset 0 0 30px rgba(255,255,255,0.05);
+    .card-wrap {
+      perspective: 1400px;
+      width: 100%;
+      max-width: 380px;
+      margin: 0 auto 22px;
+    }
+
+    .flip-card {
+      width: 100%;
+      aspect-ratio: 0.65 / 1;
       position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.8s ease;
+      cursor: pointer;
+      animation: floating 3.6s ease-in-out infinite;
+    }
+
+    .flip-card.is-flipped {
+      transform: rotateY(180deg);
+    }
+
+    @keyframes floating {
+      0%   { transform: translateY(0px); }
+      50%  { transform: translateY(-10px); }
+      100% { transform: translateY(0px); }
+    }
+
+    .flip-card.is-flipped {
+      animation: none;
+      transform: rotateY(180deg);
+    }
+
+    .card-face {
+      position: absolute;
+      inset: 0;
+      border-radius: 28px;
       overflow: hidden;
+      backface-visibility: hidden;
+      box-shadow: 0 18px 50px rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.14);
     }
 
-    .flower {
-      font-size: 68px;
-      transform: scale(0.8);
-      opacity: 0.75;
-      transition: transform 0.6s ease, opacity 0.6s ease;
+    .card-front {
+      background: #2a1f4d;
     }
 
-    .flower.bloom {
-      transform: scale(1.18);
-      opacity: 1;
-      animation: pulse 1.2s ease;
+    .front-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
     }
 
-    @keyframes pulse {
-      0%   { transform: scale(0.5); opacity: 0.2; }
-      50%  { transform: scale(1.22); opacity: 1; }
-      100% { transform: scale(1.18); opacity: 1; }
-    }
-
-    .input-group {
+    .front-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to top,
+        rgba(22, 10, 42, 0.85) 0%,
+        rgba(22, 10, 42, 0.15) 45%,
+        rgba(22, 10, 42, 0.05) 100%
+      );
       display: flex;
-      gap: 10px;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-items: flex-start;
+      padding: 20px 18px;
+      text-align: left;
+    }
+
+    .front-no {
+      font-size: 13px;
+      color: #f0e6ff;
+      margin-bottom: 6px;
+      letter-spacing: 1px;
+    }
+
+    .front-name {
+      font-size: 28px;
+      font-weight: 800;
+      margin: 0 0 4px;
+    }
+
+    .front-caption {
+      margin: 0;
+      font-size: 14px;
+      color: #eee4ff;
+    }
+
+    .card-back {
+      transform: rotateY(180deg);
+      background:
+        linear-gradient(160deg, rgba(80, 48, 145, 0.92), rgba(168, 124, 255, 0.82)),
+        rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(14px);
+      padding: 22px 20px;
+      text-align: left;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .member-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
       margin-bottom: 14px;
     }
 
-    input {
-      flex: 1;
-      border: none;
-      outline: none;
-      border-radius: 14px;
-      padding: 14px 16px;
+    .member-title {
+      margin: 0;
+      font-size: 26px;
+      font-weight: 800;
+      line-height: 1.1;
+    }
+
+    .member-heart {
+      font-size: 30px;
+    }
+
+    .member-body {
       font-size: 15px;
-      background: rgba(255,255,255,0.12);
-      color: #fff;
+      line-height: 1.9;
+      color: #fcf9ff;
+      white-space: pre-line;
     }
 
-    input::placeholder {
-      color: rgba(255,255,255,0.65);
+    .member-highlight {
+      color: #fff4b8;
+      font-weight: 700;
     }
 
-    button {
+    .member-footer {
+      margin-top: 16px;
+      padding-top: 14px;
+      border-top: 1px solid rgba(255, 255, 255, 0.18);
+      font-size: 14px;
+      color: #f5edff;
+      line-height: 1.8;
+      white-space: pre-line;
+    }
+
+    .tip {
+      margin: 0 0 18px;
+      color: #eadfff;
+      font-size: 14px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
       border: none;
-      outline: none;
       border-radius: 14px;
       padding: 14px 18px;
       font-size: 15px;
       font-weight: 700;
       cursor: pointer;
-      color: #2b0d52;
-      background: linear-gradient(135deg, #e9d8ff 0%, #c8a2ff 100%);
       transition: transform 0.15s ease, opacity 0.15s ease;
+      text-decoration: none;
+      display: inline-block;
     }
 
-    button:hover {
+    .btn:hover {
       transform: translateY(-1px);
       opacity: 0.95;
     }
 
-    .hint {
+    .btn-primary {
+      background: linear-gradient(135deg, #ead8ff 0%, #c8a2ff 100%);
+      color: #2b0d52;
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      backdrop-filter: blur(10px);
+    }
+
+    .bottom-note {
+      margin-top: 18px;
       font-size: 13px;
-      color: #d7cbff;
-      margin-bottom: 16px;
-      line-height: 1.7;
+      color: rgba(255, 255, 255, 0.78);
+      line-height: 1.8;
     }
 
-    .result {
-      margin-top: 18px;
-      padding: 18px 16px;
-      border-radius: 18px;
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.12);
-      text-align: left;
-      display: none;
-    }
-
-    .result.show {
-      display: block;
-      animation: fadeIn 0.45s ease;
-    }
-
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(12px);
+    @media (max-width: 560px) {
+      .title {
+        font-size: 28px;
       }
-      to {
-        opacity: 1;
-        transform: translateY(0);
+
+      .subtitle {
+        font-size: 14px;
       }
-    }
 
-    .result-title {
-      font-size: 18px;
-      margin: 0 0 10px;
-      color: #fff;
-    }
+      .card-wrap {
+        max-width: 340px;
+      }
 
-    .result-text {
-      margin: 0;
-      line-height: 1.9;
-      color: #f3edff;
-      font-size: 15px;
-    }
+      .member-title {
+        font-size: 22px;
+      }
 
-    .status {
-      min-height: 24px;
-      margin-top: 6px;
-      font-size: 14px;
-      color: #ffd9f0;
-    }
+      .member-body,
+      .member-footer {
+        font-size: 14px;
+      }
 
-    .footer-note {
-      margin-top: 18px;
-      font-size: 12px;
-      color: rgba(255,255,255,0.66);
-      line-height: 1.7;
-    }
+      .actions {
+        flex-direction: column;
+      }
 
-    .actions {
-      display: flex;
-      gap: 10px;
-      margin-top: 16px;
-    }
-
-    .secondary-btn {
-      flex: 1;
-      background: rgba(255,255,255,0.1);
-      color: #fff;
-      border: 1px solid rgba(255,255,255,0.14);
-    }
-
-    .primary-btn {
-      flex: 1;
+      .btn {
+        width: 100%;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="card">
-    <div class="small-tag">啓示錄互動系統</div>
-    <h1>《啓示錄》</h1>
+  <div class="page">
+    <div class="top-badge">G.E.M. 應援卡收藏系統</div>
+    <h1 class="title">專屬應援卡</h1>
     <p class="subtitle">
-      歡迎進入本系統。<br>
-      請輸入通關密碼，喚醒屬於你的彩蛋。
+      點一下卡片可以翻面。<br>
+      每一張卡，都是不同的相遇。
     </p>
 
-    <div class="flower-area">
-      <div class="flower" id="flowerIcon">🌱</div>
-    </div>
+    <div class="card-wrap">
+      <div class="flip-card" id="flipCard">
+        <div class="card-face card-front">
+          <img id="frontImage" class="front-image" src="1.jpg" alt="G.E.M. 應援卡圖片" />
+          <div class="front-overlay">
+            <div class="front-no" id="frontNo">No.527_001 ✨</div>
+            <h2 class="front-name">G.E.M.</h2>
+            <p class="front-caption">Tap to flip your member card</p>
+          </div>
+        </div>
 
-    <div class="hint">
-      提示：密碼可能和G.E.M.、GLORIA、棋士有關，不限英文或中文。
-    </div>
+        <div class="card-face card-back">
+          <div>
+            <div class="member-head">
+              <h2 class="member-title">G.E.M.</h2>
+              <div class="member-heart">💜</div>
+            </div>
 
-    <div class="input-group">
-      <input
-        type="text"
-        id="passwordInput"
-        placeholder="請輸入啟動密碼"
-        autocomplete="off"
-      />
-      <button onclick="unlockFlower()">解鎖</button>
-    </div>
+            <div class="member-body" id="memberBody">
+《G.E.M. 鄧紫棋 I AM GLORIA 世界巡迴演唱會 2.0－台北站》
 
-    <div class="status" id="statusText"></div>
+身份：鄧紫棋忠實粉絲 💜
 
-    <div class="result" id="resultBox">
-      <h2 class="result-title" id="resultTitle">已解鎖</h2>
-      <p class="result-text" id="resultText"></p>
+日期：2026/4/11 🎤
 
-      <div class="actions">
-        <button class="secondary-btn" onclick="resetSystem()">重新輸入</button>
-        <button class="primary-btn" onclick="randomHint()">再拿一個提示</button>
+No.527_001 ✨
+
+這是屬於你的應援卡～ 💜
+            </div>
+          </div>
+
+          <div class="member-footer" id="memberFooter">
+💜 G.E.M. 💜
+
+此刻的我們，是最幸福的棋士 💎
+
+「見過光，就要把光反射出去」 🌟
+          </div>
+        </div>
       </div>
     </div>
 
-    <div class="footer-note">
-      每一道信念，都會開出一朵花。<br>
-      願你在光裡相遇，也把光帶給下一位棋士。
+    <p class="tip">目前顯示卡號：<span id="currentCardNo">No.527_001</span></p>
+
+    <div class="actions">
+      <a class="btn btn-primary" id="makerBtn" href="maker.html">自製粉絲卡</a>
+      <a class="btn btn-secondary" id="gameBtn" href="game.html">進入小遊戲</a>
+    </div>
+
+    <div class="bottom-note">
+      每張吊飾都可以對應不同編號與不同卡面。<br>
+      之後你只要把不同 `?id=` 寫進 NFC 就可以了。
     </div>
   </div>
 
   <script>
-    const passwordData = {
-      "GLORIA": {
-        emoji: "💜",
-        title: "紫光花已綻放",
-        text: "驗證成功。你喚醒了『紫光花』。\n它只為仍然願意相信光的人盛開。\n今日彩蛋訊息：見過光，就應該把光反射出去。"
-      },
-      "棋士": {
-        emoji: "💎",
-        title: "已解鎖棋士",
-        text: "恭喜你解鎖『棋士』。\n只送給懂得交換、懂得珍惜、也願意把喜歡延續下去的人。\n今日彩蛋訊息：我們也許不認識，但我們喜歡同一個人。"
-      },
-      "G.E.M.": {
-        emoji: "👑",
-        title: "皇冠花已綻放",
-        text: "驗證成功。你喚醒了『皇冠花』。\n這朵花象徵舞台中央最耀眼的存在。\n今日彩蛋訊息：不是因為站在光裡才發光，而是她本來就會發光。"
-      },
-      "GEM": {
-        emoji: "👑",
-        title: "皇冠花已綻放",
-        text: "驗證成功。你喚醒了『皇冠花』。\n這朵花象徵舞台中央最耀眼的存在。\n今日彩蛋訊息：不是因為站在光裡才發光，而是她本來就會發光。"
-      }
-    };
+    const params = new URLSearchParams(window.location.search);
+    const rawId = parseInt(params.get("id"), 10);
+    const cardId = (!isNaN(rawId) && rawId >= 1 && rawId <= 30) ? rawId : 1;
 
-    const hintList = [
-      "提示 1：有一組密碼來自 I AM GLORIA。",
-      "提示 2：有一組密碼是粉絲身份感。",
-      "提示 3：有一組密碼很短，和名字有關。"
-    ];
+    const cardNo = `No.527_${String(cardId).padStart(3, "0")}`;
+    const imageFile = `${cardId}.jpg`;
 
-    function unlockFlower() {
-      const input = document.getElementById("passwordInput").value.trim();
-      const normalized = input.toUpperCase();
+    document.getElementById("frontImage").src = imageFile;
+    document.getElementById("frontNo").textContent = `${cardNo} ✨`;
+    document.getElementById("currentCardNo").textContent = cardNo;
 
-      const resultBox = document.getElementById("resultBox");
-      const resultTitle = document.getElementById("resultTitle");
-      const resultText = document.getElementById("resultText");
-      const statusText = document.getElementById("statusText");
-      const flowerIcon = document.getElementById("flowerIcon");
+    document.getElementById("memberBody").textContent =
+`《G.E.M. 鄧紫棋 I AM GLORIA 世界巡迴演唱會 2.0－台北站》
 
-      let data = null;
+身份：鄧紫棋忠實粉絲 💜
 
-      if (passwordData[input]) {
-        data = passwordData[input];
-      } else if (passwordData[normalized]) {
-        data = passwordData[normalized];
-      }
+日期：2026/4/11 🎤
 
-      flowerIcon.classList.remove("bloom");
+${cardNo} ✨
 
-      if (data) {
-        resultTitle.textContent = data.title;
-        resultText.innerText = data.text;
-        statusText.textContent = "驗證成功，正在開花……";
-        flowerIcon.textContent = data.emoji;
-        resultBox.classList.add("show");
+這是屬於你的應援卡～ 💜`;
 
-        setTimeout(() => {
-          flowerIcon.classList.add("bloom");
-        }, 80);
-      } else {
-        resultBox.classList.remove("show");
-        statusText.textContent = "密碼錯誤，尚未偵測到有效訊號。";
-        flowerIcon.textContent = "🌱";
-      }
-    }
-
-    function resetSystem() {
-      document.getElementById("passwordInput").value = "";
-      document.getElementById("statusText").textContent = "";
-      document.getElementById("resultBox").classList.remove("show");
-
-      const flowerIcon = document.getElementById("flowerIcon");
-      flowerIcon.textContent = "🌱";
-      flowerIcon.classList.remove("bloom");
-    }
-
-    function randomHint() {
-      const randomIndex = Math.floor(Math.random() * hintList.length);
-      document.getElementById("statusText").textContent = hintList[randomIndex];
-    }
-
-    document.getElementById("passwordInput").addEventListener("keydown", function(event) {
-      if (event.key === "Enter") {
-        unlockFlower();
-      }
+    const flipCard = document.getElementById("flipCard");
+    flipCard.addEventListener("click", () => {
+      flipCard.classList.toggle("is-flipped");
     });
+
+    document.getElementById("makerBtn").href = `maker.html?id=${cardId}`;
+    document.getElementById("gameBtn").href = `game.html?id=${cardId}`;
   </script>
 </body>
 </html>
