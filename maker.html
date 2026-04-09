@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>自製花境應援卡</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: "Noto Sans TC", sans-serif;
+  background: linear-gradient(160deg,#2a1f4d,#7b5fc9);
+  color: white;
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+
+.container {
+  width: 100%;
+  max-width: 420px;
+}
+
+h1 {
+  text-align: center;
+}
+
+.card {
+  width: 100%;
+  aspect-ratio: 0.65/1;
+  perspective: 1000px;
+  margin-bottom: 20px;
+}
+
+.inner {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: 0.6s;
+}
+
+.card.flip .inner {
+  transform: rotateY(180deg);
+}
+
+.face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 20px;
+  overflow: hidden;
+  backface-visibility: hidden;
+}
+
+.front img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.back {
+  background: rgba(255,255,255,0.1);
+  backdrop-filter: blur(10px);
+  transform: rotateY(180deg);
+  padding: 16px;
+}
+
+input, textarea {
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  border-radius: 12px;
+  border: none;
+  font-weight: bold;
+  background: #e9d8ff;
+  color: #2b0d52;
+}
+
+.preview-text {
+  white-space: pre-line;
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+
+<h1>💜 自製花境應援卡</h1>
+
+<div class="card" id="card">
+  <div class="inner">
+
+    <!-- 正面 -->
+    <div class="face front">
+      <img id="previewImg" src="1.jpg">
+    </div>
+
+    <!-- 背面 -->
+    <div class="face back">
+      <div class="preview-text" id="previewText">
+G.E.M. 花境應援卡 💜
+
+No.001
+
+這是屬於你的卡片 ✨
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<button onclick="flipCard()">翻面</button>
+
+<hr>
+
+<input type="file" id="imgInput">
+
+<input type="text" id="nameInput" placeholder="輸入名稱">
+<input type="text" id="noInput" placeholder="輸入編號">
+<textarea id="textInput" placeholder="輸入想寫的話"></textarea>
+
+<button onclick="updateCard()">更新卡片</button>
+
+</div>
+
+<script>
+
+// 讀 id（跟你30卡串）
+const params = new URLSearchParams(window.location.search);
+const id = params.get("id") || "1";
+
+// 預設編號
+document.getElementById("noInput").value = id.padStart(3,"0");
+
+// 翻面
+function flipCard(){
+  document.getElementById("card").classList.toggle("flip");
+}
+
+// 上傳圖片
+document.getElementById("imgInput").addEventListener("change", function(e){
+  const file = e.target.files[0];
+  if(file){
+    const reader = new FileReader();
+    reader.onload = function(){
+      document.getElementById("previewImg").src = reader.result;
+    }
+    reader.readAsDataURL(file);
+  }
+});
+
+// 更新卡片
+function updateCard(){
+  const name = document.getElementById("nameInput").value || "G.E.M.";
+  const no = document.getElementById("noInput").value || "001";
+  const text = document.getElementById("textInput").value || "這是屬於你的卡片 💜";
+
+  document.getElementById("previewText").innerText =
+`${name} 花境應援卡 💜
+
+No.${no}
+
+${text}`;
+}
+
+</script>
+
+</body>
+</html>
