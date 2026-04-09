@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>花境解鎖系統</title>
+  <title>小遊戲系統</title>
   <style>
     * {
       box-sizing: border-box;
@@ -251,17 +251,15 @@
 </head>
 <body>
   <div class="card">
-    <div class="small-tag">花境解鎖系統</div>
-    <h1>《啟動花境》</h1>
+    <div class="small-tag">小遊戲系統</div>
+    <h1>《啟動小遊戲》</h1>
     <p class="subtitle">
-      歡迎來到解鎖區。<br>
+      歡迎來到小遊戲區。<br>
       輸入密碼，喚醒屬於你的花。
     </p>
 
-    <p class="card-number" id="cardNumber">吊飾編號：No.527_001 ✨</p>
-
     <div class="flower-area">
-      <img id="flower" src="seed.png" alt="花境種子" class="flower-img seed-ready">
+      <img id="flower" src="seed.png" alt="種子" class="flower-img seed-ready">
     </div>
 
     <div class="hint" id="hintText">
@@ -275,13 +273,13 @@
         placeholder="請輸入啟動密碼"
         autocomplete="off"
       />
-      <button onclick="unlockFlower()">解鎖</button>
+      <button onclick="unlockFlower()">小遊戲</button>
     </div>
 
     <div class="status" id="statusText"></div>
 
     <div class="result" id="resultBox">
-      <h2 class="result-title" id="resultTitle">已解鎖</h2>
+      <h2 class="result-title" id="resultTitle">已小遊戲</h2>
       <p class="result-text" id="resultText"></p>
 
       <div class="actions">
@@ -307,7 +305,6 @@
     const cardId = (!isNaN(rawId) && rawId >= 1 && rawId <= 30) ? rawId : 1;
     const cardNo = `No.527_${String(cardId).padStart(3, "0")}`;
 
-    document.getElementById("cardNumber").textContent = `吊飾編號：${cardNo} ✨`;
     document.getElementById("homeBtn").href = `index.html?id=${cardId}`;
     document.getElementById("makerBtn").href = `maker.html?id=${cardId}`;
 
@@ -404,11 +401,10 @@
       if (data) {
         statusText.textContent = "驗證成功，正在開花……";
         resultTitle.textContent = data.title;
-        resultText.textContent = `${data.text}\n\n專屬吊飾編號：${cardNo}`;
         resultBox.classList.add("show");
 
         flower.src = "seed.png";
-        flower.alt = "花境種子";
+        flower.alt = "種子";
 
         setTimeout(() => {
           flower.src = data.image;
@@ -423,7 +419,7 @@
         resultBox.classList.remove("show");
         statusText.textContent = "密碼錯誤，尚未偵測到有效訊號。";
         flower.src = "seed.png";
-        flower.alt = "花境種子";
+        flower.alt = "種子";
         flower.classList.add("seed-ready");
       }
     }
@@ -436,7 +432,7 @@
 
       const flower = document.getElementById("flower");
       flower.src = "seed.png";
-      flower.alt = "花境種子";
+      flower.alt = "種子";
       flower.classList.remove("bloom", "glow");
       flower.classList.add("seed-ready");
     }
