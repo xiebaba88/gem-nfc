@@ -66,15 +66,23 @@
       aspect-ratio: 0.65 / 1;
       position: relative;
       transform-style: preserve-3d;
-      transition: transform 0.8s ease;
       cursor: pointer;
+    }
+    
+    .flip-card-inner {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.8s ease;
       animation: floating 3.6s ease-in-out infinite;
     }
-
-    .flip-card.is-flipped {
+    
+    .flip-card.is-flipped .flip-card-inner {
       transform: rotateY(180deg);
+      animation: none;
     }
-
+    
     @keyframes floating {
       0%   { transform: translateY(0px); }
       50%  { transform: translateY(-10px); }
@@ -334,7 +342,8 @@
 
     <div class="card-wrap">
       <div class="flip-card" id="flipCard">
-        <div class="card-face card-front">
+        <div class="flip-card-inner">
+          <div class="card-face card-front">
           <img id="frontImage" class="front-image" src="1.jpg" alt="G.E.M. 應援卡圖片" />
           <div class="front-overlay">
             <h2 class="front-name">G.E.M.</h2>
