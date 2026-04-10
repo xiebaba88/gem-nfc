@@ -450,6 +450,7 @@
   <script>
     const params = new URLSearchParams(window.location.search);
     const id = params.get("id") || "1";
+    const isSpecialGem = id === "gem";
 
     document.getElementById("homeBtn").href = `index.html?id=${id}`;
     document.getElementById("gameBtn").href = `game.html?id=${id}`;
