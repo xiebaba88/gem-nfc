@@ -294,6 +294,7 @@
     const params = new URLSearchParams(window.location.search);
     const rawId = parseInt(params.get("id"), 10);
     const cardId = (!isNaN(rawId) && rawId >= 1 && rawId <= 30) ? rawId : 1;
+    const isSpecialGem = id === "gem";
 
     document.getElementById("homeBtn").href = `index.html?id=${cardId}`;
     document.getElementById("makerBtn").href = `maker.html?id=${cardId}`;
