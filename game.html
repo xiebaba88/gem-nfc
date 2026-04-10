@@ -1,197 +1,145 @@
-<!DOCTYPE html>
-<html lang="zh-Hant">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>小遊戲系統</title>
-  <style>
-    * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      min-height: 100vh;
-      font-family: "Noto Sans TC", "Microsoft JhengHei", sans-serif;
-      background:
-        linear-gradient(rgba(35, 22, 67, 0.82), rgba(78, 49, 144, 0.90)),
-        url("gem-bg3.jpg") center center / cover no-repeat fixed;
-      color: #f7f2ff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 24px;
-    }
-
-    .card {
-      width: 100%;
-      max-width: 460px;
-      background: rgba(255, 255, 255, 0.08);
-      backdrop-filter: blur(16px);
-      border: 1px solid rgba(255, 255, 255, 0.16);
-      border-radius: 28px;
-      padding: 28px 22px;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.32);
-      text-align: center;
-    }
-
-    h1 { font-size: 30px; margin: 0 0 8px; }
-
-    .subtitle {
-      font-size: 15px;
-      line-height: 1.8;
-      color: #ebdfff;
-      margin: 0 0 10px;
-    }
-
-    .flower-area {
-      width: 230px;
-      height: 230px;
-      margin: 0 auto 20px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: radial-gradient(circle, rgba(233,216,255,0.45), rgba(123,95,201,0.12));
-      border: 1px solid rgba(255,255,255,0.14);
-      overflow: hidden;
-    }
-
-    .flower-img {
-      width: 82%;
-      opacity: 0;
-      transform: scale(0.2);
-      transition: 1.2s;
-    }
-
-    .flower-img.seed-ready {
-      opacity: 1;
-      transform: scale(0.8);
-    }
-
-    .flower-img.bloom {
-      opacity: 1;
-      transform: scale(1);
-    }
-
-    input {
-      width: 100%;
-      padding: 14px;
-      border-radius: 12px;
-      border: none;
-      margin-bottom: 10px;
-    }
-
-    button {
-      width: 100%;
-      padding: 12px;
-      border-radius: 12px;
-      border: none;
-      font-weight: bold;
-      margin-bottom: 10px;
-    }
-
-    .result {
-      display: none;
-      margin-top: 16px;
-      text-align: left;
-    }
-
-    .result.show { display: block; }
-
-    .actions {
-      display: flex;
-      gap: 10px;
-      margin-top: 16px;
-      flex-wrap: wrap;
-    }
-
-    .actions a {
-      flex: 1;
-      text-align: center;
-      padding: 10px;
-      border-radius: 10px;
-      background: rgba(255,255,255,0.1);
-      color: white;
-      text-decoration: none;
-    }
-  </style>
-</head>
-
-<body>
-  <div class="card">
-    <h1>《小遊戲系統》</h1>
-
-    <p class="subtitle">
-      歡迎來到小遊戲區。<br>
-      靈感來自《啓示路》。<br>
-      輸入密碼，喚醒屬於你的花。
-    </p>
-
-    <div class="flower-area">
-      <img id="flower" src="seed.png" class="flower-img seed-ready">
-    </div>
-
-    <input id="passwordInput" placeholder="輸入密碼">
-
-    <button onclick="unlockFlower()">輸入</button>
-
-    <div class="result" id="resultBox">
-      <h3 id="resultTitle"></h3>
-      <p id="resultText"></p>
-    </div>
-
-    <div class="actions">
-      <a id="homeBtn">返回應援卡</a>
-      <a id="makerBtn">自製粉絲卡</a>
-    </div>
-  </div>
-
 <script>
-const params = new URLSearchParams(window.location.search);
-const idParam = params.get("id");
-const isSpecialGem = idParam === "gem";
+  const params = new URLSearchParams(window.location.search);
+  const idParam = params.get("id");
+  const isSpecialGem = idParam === "gem";
 
-const rawId = parseInt(idParam, 10);
-const cardId = (!isNaN(rawId) && rawId >= 1 && rawId <= 30) ? rawId : 1;
+  const rawId = parseInt(idParam, 10);
+  const cardId = (!isNaN(rawId) && rawId >= 1 && rawId <= 30) ? rawId : 1;
 
-// 🔑 修正：保留 gem
-document.getElementById("homeBtn").href = `index.html?id=${isSpecialGem ? "gem" : cardId}`;
-document.getElementById("makerBtn").href = `maker.html?id=${isSpecialGem ? "gem" : cardId}`;
+  // 🔥 修正：保留 gem
+  document.getElementById("homeBtn").href = `index.html?id=${isSpecialGem ? "gem" : cardId}`;
+  document.getElementById("makerBtn").href = `maker.html?id=${isSpecialGem ? "gem" : cardId}`;
 
-const passwordData = {
-  "GEM": {
-    image: "sunflower.png",
-    title: "向日葵已綻放",
-    text: "她就是我們的光。"
-  },
-  "GLORIA": {
-    image: "butterfly.png",
-    title: "蝴蝶花已綻放",
-    text: "象徵重生與信念。"
-  },
-  "0302": {
-    image: "chrysanthemum.png",
-    title: "秋菊已綻放",
-    text: "見過光，就要把光反射出去。"
+  const passwordData = {
+    "G.E.M.": {
+      image: "sunflower.png",
+      title: "向日葵已綻放",
+      text: "你喚醒了向日葵。\n它總是朝向光的方向。\n訊息：她就是我們的光。"
+    },
+    "GEM": {
+      image: "sunflower.png",
+      title: "向日葵已綻放",
+      text: "你喚醒了向日葵。\n它總是朝向光的方向。\n訊息：她就是我們的光。"
+    },
+    "GLORIA": {
+      image: "butterfly.png",
+      title: "蝴蝶花已綻放",
+      text: "你喚醒了蝴蝶花。\n象徵重生與信念。\n蝴蝶也將會破繭。"
+    },
+    "棋士": {
+      image: "babysbreath.png",
+      title: "滿天星已綻放",
+      text: "你喚醒了滿天星。\n只為了 夜空中最亮的那顆星。\n我們也許不認識，但我們喜歡同一個人。"
+    },
+    "0527": {
+      image: "swirl.png",
+      title: "銀色漩渦已綻放",
+      text: "你喚醒了銀色漩渦。\n如果完美只存在於虛擬世界，\n你會愛真實的我嗎？"
+    },
+    "0923": {
+      image: "snow.png",
+      title: "雪片蓮已綻放",
+      text: "你喚醒了雪片蓮。\n這株曾被封存的生命，\n終於在此刻綻放。"
+    },
+    "0816": {
+      image: "mint.png",
+      title: "薄荷已綻放",
+      text: "你喚醒了薄荷。\n象徵清新與初心。\n不管多久，都不要忘記最初的喜歡。"
+    },
+    "0302": {
+      image: "chrysanthemum.png",
+      title: "秋菊已綻放",
+      text: "你喚醒了秋菊。\n它盛開於時間之中。\n見過光，就要把光反射出去。"
+    }
+  };
+
+  const hints = [
+    "提示1：有一組密碼和名字有關。",
+    "提示2：有一組密碼和巡演主題有關。",
+    "提示3：有一組密碼是日期，來自小說 與『家的密碼...』有關",
+    "提示4：有一組密碼是日期，來自小說 與『如果神讓你看見』有關",
+    "提示5：有一組密碼是日期，來自小說 與『讓世界暫停一分鐘』有關",
+    "提示6：有一組密碼與特殊日期有關。",
+    "提示7：有一組密碼是粉絲身份感。"
+  ];
+
+  const answers = [
+    "G.E.M.",
+    "GLORIA",
+    "0302",
+    "0527",
+    "0923",
+    "0816",
+    "棋士"
+  ];
+
+  let hintIndex = 0;
+  let answerIndex = 0;
+
+  function nextHint() {
+    const statusText = document.getElementById("statusText");
+    statusText.textContent = hints[hintIndex];
+    hintIndex = (hintIndex + 1) % hints.length;
   }
-};
 
-function unlockFlower() {
-  const input = document.getElementById("passwordInput").value.toUpperCase();
-  const data = passwordData[input];
-
-  const flower = document.getElementById("flower");
-  const box = document.getElementById("resultBox");
-
-  if (data) {
-    flower.src = data.image;
-    flower.classList.remove("seed-ready");
-    flower.classList.add("bloom");
-
-    document.getElementById("resultTitle").textContent = data.title;
-    document.getElementById("resultText").textContent = data.text;
-    box.classList.add("show");
+  function nextAnswer() {
+    const statusText = document.getElementById("statusText");
+    statusText.textContent = `答案提示：${answers[answerIndex]}`;
+    answerIndex = (answerIndex + 1) % answers.length;
   }
-}
+
+  function unlockFlower() {
+    const input = document.getElementById("passwordInput").value.trim();
+    const normalized = input.toUpperCase();
+
+    const resultBox = document.getElementById("resultBox");
+    const resultTitle = document.getElementById("resultTitle");
+    const resultText = document.getElementById("resultText");
+    const statusText = document.getElementById("statusText");
+    const flower = document.getElementById("flower");
+
+    let data = passwordData[input] || passwordData[normalized];
+
+    flower.classList.remove("bloom", "glow", "seed-ready");
+
+    if (data) {
+      statusText.textContent = "驗證成功，正在開花……";
+      resultTitle.textContent = data.title;
+      resultText.textContent = data.text;
+      resultBox.classList.add("show");
+
+      flower.src = "seed.png";
+
+      setTimeout(() => {
+        flower.src = data.image;
+        flower.classList.add("bloom");
+
+        setTimeout(() => {
+          flower.classList.add("glow");
+        }, 800);
+      }, 220);
+    } else {
+      resultBox.classList.remove("show");
+      statusText.textContent = "密碼錯誤，尚未偵測到有效訊號。";
+      flower.src = "seed.png";
+      flower.classList.add("seed-ready");
+    }
+  }
+
+  function resetSystem() {
+    document.getElementById("passwordInput").value = "";
+    document.getElementById("statusText").textContent = "";
+    document.getElementById("resultBox").classList.remove("show");
+
+    const flower = document.getElementById("flower");
+    flower.src = "seed.png";
+    flower.classList.remove("bloom", "glow");
+    flower.classList.add("seed-ready");
+  }
+
+  document.getElementById("passwordInput").addEventListener("keydown", function(event) {
+    if (event.key === "Enter") {
+      unlockFlower();
+    }
+  });
 </script>
-</body>
-</html>
