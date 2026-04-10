@@ -60,13 +60,12 @@
       max-width: 380px;
       margin: 0 auto 40px;
     }
-    
+
     .card-float {
       width: 100%;
       animation: floating 3.6s ease-in-out infinite;
     }
-    
-    
+
     @keyframes floating {
       0%   { transform: translateY(0px); }
       50%  { transform: translateY(-10px); }
@@ -79,7 +78,7 @@
       position: relative;
       cursor: pointer;
     }
-    
+
     .flip-card-inner {
       width: 100%;
       height: 100%;
@@ -87,11 +86,11 @@
       transform-style: preserve-3d;
       transition: transform 0.8s ease;
     }
-    
+
     .flip-card.is-flipped .flip-card-inner {
       transform: rotateY(180deg);
     }
-    
+
     .flip-card,
     .flip-card-inner,
     .card-face {
@@ -140,12 +139,6 @@
       font-size: 28px;
       font-weight: 800;
       margin: 0 0 4px;
-    }
-
-    .front-caption {
-      margin: 0;
-      font-size: 14px;
-      color: #eee4ff;
     }
 
     .card-back {
@@ -225,6 +218,7 @@
       font-weight: 700;
       color: #fff;
       line-height: 1.6;
+      white-space: pre-line;
     }
 
     .member-message {
@@ -234,6 +228,7 @@
       font-weight: 700;
       color: #fff7ff;
       z-index: 2;
+      white-space: pre-line;
     }
 
     .member-footer {
@@ -285,26 +280,19 @@
       backdrop-filter: blur(10px);
     }
 
-    .bottom-note {
-      margin-top: 18px;
-      font-size: 13px;
-      color: rgba(255, 255, 255, 0.78);
-      line-height: 1.8;
-    }
-
     @media (max-width: 560px) {
       body {
-          align-items: flex-start;
-          padding-top: 36px;
-          padding-bottom: 36px;
-        }
+        align-items: flex-start;
+        padding-top: 36px;
+        padding-bottom: 36px;
+      }
 
-     .page {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-        }
-      
+      .page {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
       .title {
         font-size: 28px;
       }
@@ -336,7 +324,6 @@
       .btn {
         width: 100%;
       }
-
     }
   </style>
 </head>
@@ -359,44 +346,43 @@
                 <h2 class="front-name">G.E.M.</h2>
               </div>
             </div>
-    
+
             <div class="card-face card-back">
               <div class="member-badge">MEMBER CARD</div>
-    
+
               <div class="member-head">
                 <div>
                   <h2 class="member-title">G.E.M.</h2>
-                  <div class="member-tour">I AM GLORIA 2.0 台北站</div>
+                  <div class="member-tour" id="memberTour">I AM GLORIA 2.0 台北站</div>
                 </div>
                 <div class="member-heart">💜</div>
               </div>
-    
+
               <div class="member-grid">
                 <div class="member-item">
                   <div class="member-label">身份</div>
-                  <div class="member-value">鄧紫棋忠實粉絲</div>
+                  <div class="member-value" id="memberIdentity">鄧紫棋忠實粉絲</div>
                 </div>
-    
+
                 <div class="member-item">
                   <div class="member-label">日期</div>
-                  <div class="member-value">2026/4/9～2026/4/12 🎤</div>
+                  <div class="member-value" id="memberDate">2026/4/9～2026/4/12 🎤</div>
                 </div>
-    
+
                 <div class="member-item">
                   <div class="member-label">卡號</div>
                   <div class="member-value" id="memberCardNo">No.527_001 ✨</div>
                 </div>
               </div>
-    
-              <div class="member-message">
+
+              <div class="member-message" id="memberMessage">
                 這是屬於你的應援卡～ 💜
               </div>
-    
-              <div class="member-footer">💜 G.E.M. 💜
-    
-        此刻的我們，是最幸福的棋士 💎
-        「見過光，就要把光反射出去」 🌟</div>
-    
+
+              <div class="member-footer" id="memberFooter">💜 G.E.M. 💜
+
+此刻的我們，是最幸福的棋士 💎
+「見過光，就要把光反射出去」 🌟</div>
             </div>
           </div>
         </div>
@@ -407,13 +393,20 @@
       <a class="btn btn-primary" id="makerBtn" href="maker.html">自製粉絲卡</a>
       <a class="btn btn-secondary" id="gameBtn" href="game.html">進入小遊戲</a>
     </div>
-
   </div>
 
   <script>
     const params = new URLSearchParams(window.location.search);
-    const rawId = parseInt(params.get("id"), 10);
-    const cardId = (!isNaN(rawId) && rawId >= 1 && rawId <= 30) ? rawId : 1;
+    const idParam = params.get("id");
+    const isSpecialGem = idParam === "gem";
+
+    let cardId;
+    if (isSpecialGem) {
+      cardId = 1;
+    } else {
+      const rawId = parseInt(idParam, 10);
+      cardId = (!isNaN(rawId) && rawId >= 1 && rawId <= 30) ? rawId : 1;
+    }
 
     const cardNo = `No.527_${String(cardId).padStart(3, "0")}`;
     const imageFile = `${cardId}.jpg`;
@@ -424,15 +417,41 @@
       img.src = "1.jpg";
     };
 
-    document.getElementById("memberCardNo").textContent = `${cardNo} ✨`;
+    document.getElementById("makerBtn").href = `maker.html?id=${isSpecialGem ? "gem" : cardId}`;
+    document.getElementById("gameBtn").href = `game.html?id=${isSpecialGem ? "gem" : cardId}`;
+
+    const memberCardNo = document.getElementById("memberCardNo");
+    const memberTour = document.getElementById("memberTour");
+    const memberIdentity = document.getElementById("memberIdentity");
+    const memberDate = document.getElementById("memberDate");
+    const memberMessage = document.getElementById("memberMessage");
+    const memberFooter = document.getElementById("memberFooter");
+
+    if (isSpecialGem) {
+      memberCardNo.textContent = "For G.E.M. ✨";
+      memberTour.textContent = "A message from fans in Taipei";
+      memberIdentity.textContent = "來自台北場棋士們的心意";
+      memberDate.textContent = "2026/4/9～2026/4/12 🎤";
+      memberMessage.textContent = "這是我們想送給妳的應援卡 💜";
+      memberFooter.textContent =
+`💜 G.E.M. 💜
+
+《啓示路》裡，有句話：
+「你是很多人夜裡的『辰曦』。」
+
+其實不只是小說裡，
+在現實中，妳也一直是我們的光。
+
+謝謝妳一路唱到今天，
+也謝謝妳，讓大家因為同一份喜歡而相遇。`;
+    } else {
+      memberCardNo.textContent = `${cardNo} ✨`;
+    }
 
     const flipCard = document.getElementById("flipCard");
     flipCard.addEventListener("click", () => {
       flipCard.classList.toggle("is-flipped");
     });
-
-    document.getElementById("makerBtn").href = `maker.html?id=${cardId}`;
-    document.getElementById("gameBtn").href = `game.html?id=${cardId}`;
   </script>
 </body>
 </html>
