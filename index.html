@@ -61,6 +61,10 @@
       margin: 0 auto 40px;
     }
 
+    .card-wrap.special-gem {
+      margin-bottom: 56px;
+    }
+
     .card-float {
       width: 100%;
       animation: floating 3.6s ease-in-out infinite;
@@ -77,6 +81,10 @@
       aspect-ratio: 0.65 / 1;
       position: relative;
       cursor: pointer;
+    }
+
+    .flip-card.special-gem {
+      aspect-ratio: 0.65 / 1.18;
     }
 
     .flip-card-inner {
@@ -219,6 +227,7 @@
       color: #fff;
       line-height: 1.6;
       white-space: pre-line;
+      word-break: break-word;
     }
 
     .member-message {
@@ -229,6 +238,7 @@
       color: #fff7ff;
       z-index: 2;
       white-space: pre-line;
+      word-break: break-word;
     }
 
     .member-footer {
@@ -239,6 +249,7 @@
       color: #f5edff;
       line-height: 1.8;
       white-space: pre-line;
+      word-break: break-word;
       z-index: 2;
     }
 
@@ -261,6 +272,7 @@
       transition: transform 0.15s ease, opacity 0.15s ease;
       text-decoration: none;
       display: inline-block;
+      text-align: center;
     }
 
     .btn:hover {
@@ -305,6 +317,14 @@
         max-width: 340px;
       }
 
+      .card-wrap.special-gem {
+        margin-bottom: 72px;
+      }
+
+      .flip-card.special-gem {
+        aspect-ratio: 0.65 / 1.28;
+      }
+
       .member-title {
         font-size: 22px;
       }
@@ -336,7 +356,7 @@
       每一張卡，都是不同的相遇。
     </p>
 
-    <div class="card-wrap">
+    <div class="card-wrap" id="cardWrap">
       <div class="card-float">
         <div class="flip-card" id="flipCard">
           <div class="flip-card-inner">
@@ -360,17 +380,17 @@
 
               <div class="member-grid">
                 <div class="member-item">
-                  <div class="member-label">身份</div>
+                  <div class="member-label" id="labelIdentity">身份</div>
                   <div class="member-value" id="memberIdentity">鄧紫棋忠實粉絲</div>
                 </div>
 
                 <div class="member-item">
-                  <div class="member-label">日期</div>
+                  <div class="member-label" id="labelDate">日期</div>
                   <div class="member-value" id="memberDate">2026/4/9～2026/4/12 🎤</div>
                 </div>
 
                 <div class="member-item">
-                  <div class="member-label">卡號</div>
+                  <div class="member-label" id="labelCardNo">卡號</div>
                   <div class="member-value" id="memberCardNo">No.527_001 ✨</div>
                 </div>
               </div>
@@ -420,6 +440,13 @@
     document.getElementById("makerBtn").href = `maker.html?id=${isSpecialGem ? "gem" : cardId}`;
     document.getElementById("gameBtn").href = `game.html?id=${isSpecialGem ? "gem" : cardId}`;
 
+    const cardWrap = document.getElementById("cardWrap");
+    const flipCardEl = document.getElementById("flipCard");
+
+    const labelIdentity = document.getElementById("labelIdentity");
+    const labelDate = document.getElementById("labelDate");
+    const labelCardNo = document.getElementById("labelCardNo");
+
     const memberCardNo = document.getElementById("memberCardNo");
     const memberTour = document.getElementById("memberTour");
     const memberIdentity = document.getElementById("memberIdentity");
@@ -428,11 +455,18 @@
     const memberFooter = document.getElementById("memberFooter");
 
     if (isSpecialGem) {
+      cardWrap.classList.add("special-gem");
+      flipCardEl.classList.add("special-gem");
+
+      labelIdentity.textContent = "來自";
+      labelDate.textContent = "場次";
+      labelCardNo.textContent = "收件人";
+
       memberCardNo.textContent = "For G.E.M. ✨";
-      memberTour.textContent = "A message from fans in Taipei";
-      memberIdentity.textContent = "來自台北場棋士們的心意";
+      memberTour.textContent = "A little message from fans in Taipei";
+      memberIdentity.textContent = "台北場棋士們的心意";
       memberDate.textContent = "2026/4/9～2026/4/12 🎤";
-      memberMessage.textContent = "這是我們想送給妳的應援卡 💜";
+      memberMessage.textContent = "這是我們想送給妳的一點心意 💜";
       memberFooter.textContent =
 `💜 G.E.M. 💜
 
